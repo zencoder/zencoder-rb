@@ -1,3 +1,2 @@
-class Zencoder
-  
-end
+require 'zencoder/zencoder'
+require 'zencoder/job'
