@@ -1,7 +1,9 @@
 require 'test_helper'
 
 class ZencoderTest < Test::Unit::TestCase
-  should "be true" do
-    assert true
+
+  should "post" do
+    
   end
+
 end
