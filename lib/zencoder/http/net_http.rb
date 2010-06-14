@@ -19,11 +19,11 @@ module Zencoder::HTTP::NetHTTP
                           '/usr/local/ssl',
                           '/etc/pki/tls']
 
-  def self.post(url, options)
+  def self.post(url, options={})
     uri = URI.parse(url)
     add_params_to_query_string(uri, options[:params])
 
-    request = Net::HTTP::Post.new(uri.path)
+    request = Net::HTTP::Post.new(path_with_query_string(uri))
 
     add_headers(request, options[:headers])
     add_body(request, options[:body])
@@ -31,11 +31,11 @@ module Zencoder::HTTP::NetHTTP
     request_with_timeout(http_with_ssl(uri), request, options[:timeout])
   end
 
-  def self.put(url, options)
+  def self.put(url, options={})
     uri = URI.parse(url)
     add_params_to_query_string(uri, options[:params])
 
-    request = Net::HTTP::Put.new(uri.path)
+    request = Net::HTTP::Put.new(path_with_query_string(uri))
 
     add_headers(request, options[:headers])
     add_body(request, options[:body])
@@ -43,22 +43,22 @@ module Zencoder::HTTP::NetHTTP
     request_with_timeout(http_with_ssl(uri), request, options[:timeout])
   end
 
-  def self.get(url, options)
+  def self.get(url, options={})
     uri = URI.parse(url)
     add_params_to_query_string(uri, options[:params])
 
-    request = Net::HTTP::Get.new(uri.path + '?' + uri.query.to_s)
+    request = Net::HTTP::Get.new(path_with_query_string(uri))
 
     add_headers(request, options[:headers])
 
     request_with_timeout(http_with_ssl(uri), request, options[:timeout])
   end
 
-  def self.delete(url, options)
+  def self.delete(url, options={})
     uri = URI.parse(url)
     add_params_to_query_string(uri, options[:params])
 
-    request = Net::HTTP::Delete.new(uri.path + '?' + uri.query.to_s)
+    request = Net::HTTP::Delete.new(path_with_query_string(uri))
 
     add_headers(request, options[:headers])
 
@@ -86,6 +86,18 @@ protected
     http
   end
 
+  def self.path_with_query_string(uri)
+    if uri.path.empty?
+      uri.path = '/'
+    end
+
+    if uri.query.to_s.empty?
+      uri.path
+    else
+      uri.path + '?' + uri.query.to_s
+    end
+  end
+
   def self.locate_root_cert_path
     root_cert_paths.detect do |root_cert_path|
       File.directory?(root_cert_path)
@@ -95,7 +107,7 @@ protected
   def self.add_headers(request, headers)
     if headers
       headers.each do |header, value|
-        request.add_field(header, value)
+        request.add_field(header.to_s, value.to_s)
       end
     end
   end
