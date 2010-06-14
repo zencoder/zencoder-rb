@@ -12,7 +12,8 @@ protected
 
   def merge_params(options, params)
     if options[:params]
-      options[:params].merge(params)
+      options[:params] = options[:params].merge(params)
+      options
     else
       options.merge(:params => params)
     end
