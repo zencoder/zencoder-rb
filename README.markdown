@@ -138,12 +138,12 @@ This will put your account into live mode (site-wide).
 By default this library will use Net::HTTP to make all API calls. You can change the backend or add your own:
 
     require 'typhoeus'
-    Zencoder::HTTP.http_class = Zencoder::HTTP::Typhoeus
+    Zencoder::HTTP.http_backend = Zencoder::HTTP::Typhoeus
 
-    require 'my_favorite_http_class'
-    Zencoder::HTTP.http_class = MyFavoriteHTTPClassWrapper
+    require 'my_favorite_http_library'
+    Zencoder::HTTP.http_backend = MyFavoriteHTTPBackend
 
-See the HTTP class wrappers in this library to get started on your own.
+See the HTTP backends in this library to get started on your own.
 
 ### Advanced Options
 
