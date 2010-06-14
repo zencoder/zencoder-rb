@@ -5,9 +5,12 @@ require 'timeout'
 
 # Gems
 require 'multi_json'
-require 'json'
 
-MultiJson.engine = :json_pure
+begin
+  MultiJson.engine
+rescue LoadError
+  require 'json'
+end
 
 # Zencoder
 require 'zencoder/zencoder'

@@ -158,3 +158,11 @@ A secondary options hash can be passed to any method call which will then be pas
 The Net::HTTP backend will do its best to locate your local SSL certs to allow SSL verification. For a list of paths that are checked, see `Zencoder::HTTP::NetHTTP.root\_cert\_paths`. Feel free to add your own at runtime.
 
     Zencoder::HTTP::NetHTTP.root\_cert\_paths << '/my/custom/cert/path'
+
+### Advanced JSON
+
+#### Alternate JSON Libraries
+
+This library uses the `multi_json` gem to encode and decode JSON. It uses the `json_pure` gem by default for compatibility with different ruby implementations. You can change the JSON engine for MultiJson:
+
+    MultiJson.engine = :yajl
