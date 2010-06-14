@@ -5,7 +5,7 @@ module Zencoder::Job
   def self.create(params={}, options={})
     params_with_api_key = {:api_key => Zencoder.api_key}.merge(params)
     Zencoder::HTTP.post("#{Zencoder.base_url}/jobs",
-                         params_with_api_key.to_json,
+                         MultiJson.encode(params_with_api_key),
                          options)
   end
 

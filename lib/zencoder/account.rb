@@ -3,7 +3,7 @@ module Zencoder::Account
   extend Zencoder
 
   def self.create(params={}, options={})
-    Zencoder::HTTP.post("#{Zencoder.base_url}/account", params.to_json, options)
+    Zencoder::HTTP.post("#{Zencoder.base_url}/account", MultiJson.encode(params), options)
   end
 
   def self.details(options={})

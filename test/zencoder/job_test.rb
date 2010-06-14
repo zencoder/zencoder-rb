@@ -12,7 +12,7 @@ class Zencoder::JobTest < Test::Unit::TestCase
         @url = "#{Zencoder.base_url}/jobs"
         @params = {:api_key => @api_key,
                    :input   => "s3://bucket-name/file-name.avi"}
-        @params_as_json = @params.to_json
+        @params_as_json = MultiJson.encode(@params)
       end
 
       should "POST to the correct url and return a response" do
