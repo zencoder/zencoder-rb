@@ -1,18 +1,18 @@
 module Zencoder::HTTP::Typhoeus
 
-  def self.post(url, options)
+  def self.post(url, options={})
     Typhoeus::Request.post(url, options)
   end
 
-  def self.put(url, options)
+  def self.put(url, options={})
     Typhoeus::Request.put(url, options)
   end
 
-  def self.get(url, options)
+  def self.get(url, options={})
     Typhoeus::Request.get(url, options)
   end
 
-  def self.delete(url, options)
+  def self.delete(url, options={})
     Typhoeus::Request.delete(url, options)
   end
 
