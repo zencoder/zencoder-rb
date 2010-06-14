@@ -27,8 +27,10 @@ class Zencoder::Response
   end
 
   def output_ids
-    if body.is_a?(Hash) && body['outputs']
-      body['outputs'].map{|o| o['id'] }
+    if body.is_a?(Hash) && body['outputs'].is_a?(Array) && body['outputs'].all?{|o| o.is_a?(Hash) }
+      body['outputs'].map{|o| o['id'] }.compact
+    else
+      []
     end
   end
 
