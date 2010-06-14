@@ -11,7 +11,7 @@ class Zencoder::AccountTest < Test::Unit::TestCase
       setup do
         @url = "#{Zencoder.base_url}/account"
         @params = {:api_key => @api_key}
-        @params_as_json = @params.to_json
+        @params_as_json = MultiJson.encode(@params)
       end
 
       should "POST to the correct url and return a response" do
