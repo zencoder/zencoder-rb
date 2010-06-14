@@ -153,6 +153,14 @@ A secondary options hash can be passed to any method call which will then be pas
 
     Zencoder::Job.list(:timeout => 1000) # Timeout is 1 second.
 
+#### Default Options
+
+Default options are passed to the HTTP backend. These can be retrieved and modified.
+
+    Zencoder::HTTP.default_options = {:timeout => 3000,
+                                      :headers => {'Accept' => 'application/json',
+                                                   'Content-Type' => 'application/json'}}
+
 #### SSL
 
 The Net::HTTP backend will do its best to locate your local SSL certs to allow SSL verification. For a list of paths that are checked, see `Zencoder::HTTP::NetHTTP.root\_cert\_paths`. Feel free to add your own at runtime.
