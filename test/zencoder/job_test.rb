@@ -3,66 +3,94 @@ require 'test_helper'
 class Zencoder::JobTest < Test::Unit::TestCase
 
   context Zencoder::Job do
-    should "be initializable with a hash" do
-      assert_nothing_raised do
-        Zencoder::Job.new({})
-      end
-    end
-
-    should "be initializable with nothing" do
-      assert_nothing_raised do
-        Zencoder::Job.new
-      end
-    end
-
-    should "not initialize when passed something other than a hash" do
-      assert_raises Zencoder::ArgumentError do
-        Zencoder::Job.new(1)
-      end
-    end
-
-    context "when initialized" do
-      setup do
-        @url = 'https://app.zencoder.com/api/jobs'
-        @params = {:api_key => 'abcd1234',
-                   :input   => "s3://bucket-name/file-name.avi"}
-        @job = Zencoder::Job.new(@params)
-      end
-
-      should "return a response when calling #create" do
-        assert_equal Zencoder::Response, @job.create.class
-      end
-
-      should "return a successful response when #create succeeds" do
-        Zencoder::HTTPS.stubs(:post).with(@url, @params.to_json, {}).returns(Zencoder::Response.new(:code => 201))
-        assert @job.create.success?
-      end
-
-      should "return a failed response when #create fails" do
-        Zencoder::HTTPS.stubs(:post).with(@url, @params.to_json, {}).returns(Zencoder::Response.new(:code => 422))
-        assert !@job.create.success?
-      end
+    setup do
+      @api_key = 'abc123'
     end
 
     context ".create" do
       setup do
-        @url = 'https://app.zencoder.com/api/jobs'
-        @params = {:api_key => 'abcd1234',
+        @url = "#{Zencoder.base_url}/jobs"
+        @params = {:api_key => @api_key,
                    :input   => "s3://bucket-name/file-name.avi"}
+        @params_as_json = @params.to_json
       end
 
-      should "return a response" do
-        assert_equal Zencoder::Response, Zencoder::Job.create.class
+      should "POST to the correct url and return a response" do
+        Zencoder::HTTP.stubs(:post).with(@url, @params_as_json, {}).returns(Zencoder::Response.new)
+        assert_equal Zencoder::Response, Zencoder::Job.create(@params).class
+      end
+    end
+
+    context ".progress" do
+      setup do
+        @output_id = 1
+        @url = "#{Zencoder.base_url}/outputs/#{@output_id}/progress"
       end
 
-      should "return a successful response when #create succeeds" do
-        Zencoder::HTTPS.stubs(:post).with(@url, @params.to_json, {}).returns(Zencoder::Response.new(:code => 201))
-        assert Zencoder::Job.create(@params).success?
+      should "GET the correct url and return a response" do
+        Zencoder::HTTP.stubs(:get).with(@url, {:params => {:api_key => @api_key}}).returns(Zencoder::Response.new)
+        assert_equal Zencoder::Response, Zencoder::Job.progress(@output_id, :api_key => @api_key).class
+      end
+    end
+
+    context ".list" do
+      setup do
+        @url = "#{Zencoder.base_url}/jobs"
       end
 
-      should "return a failed response when #create fails" do
-        Zencoder::HTTPS.stubs(:post).with(@url, @params.to_json, {}).returns(Zencoder::Response.new(:code => 422))
-        assert !Zencoder::Job.create(@params).success?
+      should "GET the correct url and return a response" do
+        Zencoder::HTTP.stubs(:get).with(@url, {:params => {:api_key => @api_key,
+                                                            :page => 1,
+                                                            :per_page => 50}}).returns(Zencoder::Response.new)
+        assert_equal Zencoder::Response, Zencoder::Job.list(:api_key => @api_key).class
+      end
+    end
+
+    context ".details" do
+      setup do
+        @job_id = 1
+        @url = "#{Zencoder.base_url}/jobs/#{@job_id}"
+      end
+
+      should "GET the correct url and return a response" do
+        Zencoder::HTTP.stubs(:get).with(@url, {:params => {:api_key => @api_key}}).returns(Zencoder::Response.new)
+        assert_equal Zencoder::Response, Zencoder::Job.details(1, :api_key => @api_key).class
+      end
+    end
+
+    context ".resubmit" do
+      setup do
+        @job_id = 1
+        @url = "#{Zencoder.base_url}/jobs/#{@job_id}/resubmit"
+      end
+
+      should "GET the correct url and return a response" do
+        Zencoder::HTTP.stubs(:get).with(@url, {:params => {:api_key => @api_key}}).returns(Zencoder::Response.new)
+        assert_equal Zencoder::Response, Zencoder::Job.resubmit(1, :api_key => @api_key).class
+      end
+    end
+
+    context ".cancel" do
+      setup do
+        @job_id = 1
+        @url = "#{Zencoder.base_url}/jobs/#{@job_id}/cancel"
+      end
+
+      should "GET the correct url and return a response" do
+        Zencoder::HTTP.stubs(:get).with(@url, {:params => {:api_key => @api_key}}).returns(Zencoder::Response.new)
+        assert_equal Zencoder::Response, Zencoder::Job.cancel(1, :api_key => @api_key).class
+      end
+    end
+
+    context ".delete" do
+      setup do
+        @job_id = 1
+        @url = "#{Zencoder.base_url}/jobs/#{@job_id}"
+      end
+
+      should "DELETE the correct url and return a response" do
+        Zencoder::HTTP.stubs(:delete).with(@url, {:params => {:api_key => @api_key}}).returns(Zencoder::Response.new)
+        assert_equal Zencoder::Response, Zencoder::Job.delete(1, :api_key => @api_key).class
       end
     end
   end

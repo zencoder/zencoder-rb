@@ -20,22 +20,4 @@ class Zencoder::Response
     end
   end
 
-  def job_id
-    if body.is_a?(Hash)
-      body['id']
-    end
-  end
-
-  def output_ids
-    if body.is_a?(Hash) && body['outputs'].is_a?(Array) && body['outputs'].all?{|o| o.is_a?(Hash) }
-      body['outputs'].map{|o| o['id'] }.compact
-    else
-      []
-    end
-  end
-
-  def output_id
-    output_ids[0]
-  end
-
 end

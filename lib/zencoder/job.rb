@@ -1,21 +1,45 @@
-class Zencoder::Job
+module Zencoder::Job
 
-  attr_accessor :params
-
-  def initialize(params={})
-    if params.is_a?(Hash)
-      self.params = params
-    else
-      raise Zencoder::ArgumentError, "Zencoder::Job must be initialized with a Hash. Was initialized with #{params}"
-    end
-  end
-
-  def create(options={})
-    Zencoder::HTTPS.post('https://app.zencoder.com/api/jobs', params.to_json, options)
-  end
+  extend Zencoder
 
   def self.create(params={}, options={})
-    Zencoder::Job.new(params).create(options)
+    params_with_api_key = {:api_key => Zencoder.api_key}.merge(params)
+    Zencoder::HTTP.post("#{Zencoder.base_url}/jobs",
+                         params_with_api_key.to_json,
+                         options)
+  end
+
+  def self.progress(output_id, options={})
+    params = {:api_key => options.delete(:api_key) || Zencoder.api_key}
+    Zencoder::HTTP.get("#{Zencoder.base_url}/outputs/#{output_id}/progress", merge_params(options, params))
+  end
+
+  def self.list(options={})
+    params = {:api_key  => options.delete(:api_key) || Zencoder.api_key,
+              :page     => options.delete(:page) || 1,
+              :per_page => options.delete(:per_page) || 50 }
+
+    Zencoder::HTTP.get("#{Zencoder.base_url}/jobs", merge_params(options, params))
+  end
+
+  def self.details(job_id, options={})
+    params = {:api_key => options.delete(:api_key) || Zencoder.api_key}
+    Zencoder::HTTP.get("#{Zencoder.base_url}/jobs/#{job_id}", merge_params(options, params))
+  end
+
+  def self.resubmit(job_id, options={})
+    params = {:api_key => options.delete(:api_key) || Zencoder.api_key}
+    Zencoder::HTTP.get("#{Zencoder.base_url}/jobs/#{job_id}/resubmit", merge_params(options, params))
+  end
+
+  def self.cancel(job_id, options={})
+    params = {:api_key => options.delete(:api_key) || Zencoder.api_key}
+    Zencoder::HTTP.get("#{Zencoder.base_url}/jobs/#{job_id}/cancel", merge_params(options, params))
+  end
+
+  def self.delete(job_id, options={})
+    params = {:api_key => options.delete(:api_key) || Zencoder.api_key}
+    Zencoder::HTTP.delete("#{Zencoder.base_url}/jobs/#{job_id}", merge_params(options, params))
   end
 
 end

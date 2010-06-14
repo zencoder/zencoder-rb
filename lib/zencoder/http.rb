@@ -1,4 +1,4 @@
-module Zencoder::HTTPS
+module Zencoder::HTTP
 
   class << self
     attr_accessor :default_options
@@ -10,17 +10,32 @@ module Zencoder::HTTPS
                                        'Content-Type' => 'application/json'}}
 
   def self.http_class
-    @http_class ||= Zencoder::HTTPS::NetHTTP
+    @http_class ||= Zencoder::HTTP::NetHTTP
   end
 
   def self.post(url, body, options={})
-    options = self.default_options.merge(options).merge(:body => body)
-    process_response http_class.post(url, options)
-  rescue StandardError => e
-    raise Zencoder::HTTPSError, "#{e.class} - #{e.message}"
+    perform_method(:post, url, options.merge(:body => body))
+  end
+
+  def self.put(url, body, options={})
+    perform_method(:put, url, options.merge(:body => body))
+  end
+
+  def self.get(url, options={})
+    perform_method(:get, url, options)
+  end
+
+  def self.delete(url, options={})
+    perform_method(:delete, url, options)
   end
 
 protected
+
+  def self.perform_method(method, url, options)
+    process_response http_class.send(method, url, self.default_options.merge(options))
+  rescue StandardError => e
+    raise Zencoder::HTTPError, "#{e.class} - #{e.message}"
+  end
 
   def self.process_response(http_class_response)
     response = Zencoder::Response.new
