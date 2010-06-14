@@ -21,6 +21,8 @@ module Zencoder::HTTP::NetHTTP
 
   def self.post(url, options)
     uri = URI.parse(url)
+    add_params(uri, options[:params])
+
     request = Net::HTTP::Post.new(uri.path)
 
     add_headers(request, options[:headers])
@@ -31,6 +33,8 @@ module Zencoder::HTTP::NetHTTP
 
   def self.put(url, options)
     uri = URI.parse(url)
+    add_params(uri, options[:params])
+
     request = Net::HTTP::Put.new(uri.path)
 
     add_headers(request, options[:headers])
