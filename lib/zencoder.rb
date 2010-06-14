@@ -1,4 +1,5 @@
 # Standard Library
+require 'cgi'
 require 'net/https'
 require 'timeout'
 
