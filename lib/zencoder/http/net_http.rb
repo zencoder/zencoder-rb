@@ -21,7 +21,7 @@ module Zencoder::HTTP::NetHTTP
 
   def self.post(url, options)
     uri = URI.parse(url)
-    add_params(uri, options[:params])
+    add_params_to_query_string(uri, options[:params])
 
     request = Net::HTTP::Post.new(uri.path)
 
@@ -33,7 +33,7 @@ module Zencoder::HTTP::NetHTTP
 
   def self.put(url, options)
     uri = URI.parse(url)
-    add_params(uri, options[:params])
+    add_params_to_query_string(uri, options[:params])
 
     request = Net::HTTP::Put.new(uri.path)
 
@@ -45,7 +45,7 @@ module Zencoder::HTTP::NetHTTP
 
   def self.get(url, options)
     uri = URI.parse(url)
-    add_params(uri, options[:params])
+    add_params_to_query_string(uri, options[:params])
 
     request = Net::HTTP::Get.new(uri.path + '?' + uri.query.to_s)
 
@@ -56,7 +56,7 @@ module Zencoder::HTTP::NetHTTP
 
   def self.delete(url, options)
     uri = URI.parse(url)
-    add_params(uri, options[:params])
+    add_params_to_query_string(uri, options[:params])
 
     request = Net::HTTP::Delete.new(uri.path + '?' + uri.query.to_s)
 
@@ -106,7 +106,7 @@ protected
     end
   end
 
-  def self.add_params(uri, params)
+  def self.add_params_to_query_string(uri, params)
     if params
       params_as_query = params.map{|k,v| "#{CGI.escape(k.to_s)}=#{CGI.escape(v.to_s)}"}.join('&')
       if uri.query.to_s.empty?
