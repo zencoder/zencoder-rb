@@ -29,6 +29,7 @@ module Zencoder::HTTP
     perform_method(:delete, url, options)
   end
 
+
 protected
 
   def self.perform_method(method, url, options)
