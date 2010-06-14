@@ -22,7 +22,7 @@ protected
     response.code = typhoeus_response.code
 
     begin
-      response.body = JSON.parse(typhoeus_response.body)
+      response.body = JSON.parse(typhoeus_response.body.to_s)
     rescue JSON::ParserError
       response.body = typhoeus_response.body
     end

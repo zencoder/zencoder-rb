@@ -11,7 +11,7 @@ class Zencoder::Job
   end
 
   def create(options={})
-    Zencoder::HTTPS.post('https://api.zencoder.com/api/jobs', params.to_json, options)
+    Zencoder::HTTPS.post('https://app.zencoder.com/api/jobs', params.to_json, options)
   end
 
   def self.create(params={}, options={})
