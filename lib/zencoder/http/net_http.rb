@@ -4,10 +4,20 @@
 module Zencoder::HTTP::NetHTTP
 
   class << self
-    attr_accessor :root_cert_path
+    attr_accessor :root_cert_paths
   end
 
-  self.root_cert_path = '/etc/ssl/certs'
+  self.root_cert_paths = ['/etc/ssl/certs',
+                          '/var/ssl',
+                          '/usr/share/ssl',
+                          '/usr/ssl',
+                          '/etc/ssl',
+                          '/usr/local/openssl',
+                          '/usr/lib/ssl',
+                          '/System/Library/OpenSSL',
+                          '/etc/openssl',
+                          '/usr/local/ssl',
+                          '/etc/pki/tls']
 
   def self.post(url, options)
     uri = URI.parse(url)
@@ -60,8 +70,8 @@ protected
     if uri.scheme == 'https'
       http.use_ssl = true
 
-      if File.directory?(self.root_cert_path)
-        http.ca_path = self.root_cert_path
+      if root_cert_path = locate_root_cert_path
+        http.ca_path = root_cert_path
         http.verify_mode = OpenSSL::SSL::VERIFY_PEER
         http.verify_depth = 5
       else
@@ -70,6 +80,12 @@ protected
     end
 
     http
+  end
+
+  def self.locate_root_cert_path
+    root_cert_paths.detect do |root_cert_path|
+      File.directory?(root_cert_path)
+    end
   end
 
   def self.add_headers(request, headers)
