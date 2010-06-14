@@ -42,8 +42,8 @@ protected
     response.code = http_class_response.code
 
     begin
-      response.body = JSON.parse(http_class_response.body.to_s)
-    rescue JSON::ParserError
+      response.body = MultiJson.decode(http_class_response.body.to_s)
+    rescue StandardError # Hack! Returns different exceptions depending on the JSON engine
       response.body = http_class_response.body
     end
 

@@ -21,18 +21,6 @@ class Zencoder::JobTest < Test::Unit::TestCase
       end
     end
 
-    context ".progress" do
-      setup do
-        @output_id = 1
-        @url = "#{Zencoder.base_url}/outputs/#{@output_id}/progress"
-      end
-
-      should "GET the correct url and return a response" do
-        Zencoder::HTTP.stubs(:get).with(@url, {:params => {:api_key => @api_key}}).returns(Zencoder::Response.new)
-        assert_equal Zencoder::Response, Zencoder::Job.progress(@output_id, :api_key => @api_key).class
-      end
-    end
-
     context ".list" do
       setup do
         @url = "#{Zencoder.base_url}/jobs"
