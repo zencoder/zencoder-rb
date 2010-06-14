@@ -32,6 +32,14 @@ class Zencoder::JobTest < Test::Unit::TestCase
                                                             :per_page => 50}}).returns(Zencoder::Response.new)
         assert_equal Zencoder::Response, Zencoder::Job.list(:api_key => @api_key).class
       end
+
+      should "merge params well" do
+        Zencoder::HTTP.stubs(:get).with(@url, {:params => {:api_key => @api_key,
+                                                           :page => 1,
+                                                           :per_page => 50,
+                                                           :some => 'param'}}).returns(Zencoder::Response.new)
+        assert_equal Zencoder::Response, Zencoder::Job.list(:api_key => @api_key, :params => {:some => 'param'}).class
+      end
     end
 
     context ".details" do
