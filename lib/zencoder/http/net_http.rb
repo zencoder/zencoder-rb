@@ -89,7 +89,11 @@ protected
   def self.add_params(uri, params)
     if params
       params_as_query = params.map{|k,v| "#{CGI.escape(k.to_s)}=#{CGI.escape(v.to_s)}"}.join('&')
-      uri.query = [uri.query.to_s, params_as_query].join('&')
+      if uri.query.to_s.empty?
+        uri.query = params_as_query
+      else
+        uri.query = [uri.query.to_s, params_as_query].join('&')
+      end
     end
   end
 
