@@ -4,6 +4,10 @@ module Zencoder::HTTP::Typhoeus
     ::Typhoeus::Request.post(url, options)
   end
 
+  def self.put(url, options)
+    ::Typhoeus::Request.put(url, options)
+  end
+
   def self.get(url, options)
     ::Typhoeus::Request.get(url, options)
   end

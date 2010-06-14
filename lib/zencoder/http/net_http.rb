@@ -19,6 +19,16 @@ module Zencoder::HTTP::NetHTTP
     request_with_timeout(http_with_ssl(uri), request, options[:timeout])
   end
 
+  def self.put(url, options)
+    uri = URI.parse(url)
+    request = Net::HTTP::Put.new(uri.path)
+
+    add_headers(request, options[:headers])
+    add_body(request, options[:body])
+
+    request_with_timeout(http_with_ssl(uri), request, options[:timeout])
+  end
+
   def self.get(url, options)
     uri = URI.parse(url)
     request = Net::HTTP::Get.new(uri.path)
