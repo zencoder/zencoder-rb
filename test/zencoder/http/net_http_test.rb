@@ -46,7 +46,7 @@ class Zencoder::HTTP::TyphoeusTest < Test::Unit::TestCase
         http_stub.expects(:verify_mode=).with(OpenSSL::SSL::VERIFY_PEER)
         Net::HTTP.expects(:new).returns(http_stub)
         Zencoder::HTTP::NetHTTP.expects(:locate_root_cert_path).returns('/fake/path')
-        Zencoder::HTTP::NetHTTP.post('https://example.com/path', '{}')
+        Zencoder::HTTP::NetHTTP.post('https://example.com/path')
       end
 
       should "verify when the SSL directory is found" do
@@ -54,7 +54,7 @@ class Zencoder::HTTP::TyphoeusTest < Test::Unit::TestCase
         http_stub.expects(:verify_mode=).with(OpenSSL::SSL::VERIFY_NONE)
         Net::HTTP.expects(:new).returns(http_stub)
         Zencoder::HTTP::NetHTTP.expects(:locate_root_cert_path).returns(nil)
-        Zencoder::HTTP::NetHTTP.post('https://example.com/path', '{}')
+        Zencoder::HTTP::NetHTTP.post('https://example.com/path')
       end
     end
 
