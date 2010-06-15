@@ -171,9 +171,9 @@ Default options are passed to the HTTP backend. These can be retrieved and modif
 
 ### SSL
 
-The Net::HTTP backend will do its best to locate your local SSL certs to allow SSL verification. For a list of paths that are checked, see `Zencoder::HTTP::NetHTTP.root\_cert\_paths`. Feel free to add your own at runtime.
+The Net::HTTP backend will do its best to locate your local SSL certs to allow SSL verification. For a list of paths that are checked, see `Zencoder::HTTP::NetHTTP.root_cert_paths`. Feel free to add your own at runtime.
 
-    Zencoder::HTTP::NetHTTP.root\_cert\_paths << '/my/custom/cert/path'
+    Zencoder::HTTP::NetHTTP.root_cert_paths << '/my/custom/cert/path'
 
 ## Advanced JSON
 
