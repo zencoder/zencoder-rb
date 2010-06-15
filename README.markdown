@@ -4,6 +4,16 @@ The gem for interacting with the API on [Zencoder](http://zencoder.com).
 
 See [http://zencoder.com/docs/api](http://zencoder.com/docs/api) for more details on the API.
 
+Tested on the following versions of Ruby:
+
+* Ruby 1.8.6-p399
+* Ruby 1.8.7-p174
+* Ruby 1.9.1-p378
+* Ruby 1.9.2-preview3
+* Ruby Enterprise Edition 1.8.7-2010.02
+* Rubinius 1.0.1-20100603
+* jRuby 1.5.1
+
 ## Getting Started
 
 The first thing you'll need to interact with the Zencoder API is your API key. You can use your API key in one of two ways. The first, and in our opinion the best, is to set it and forget it on the Zencoder module like so:
