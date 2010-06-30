@@ -1,7 +1,5 @@
-module Zencoder
-  module Notification
-
-    extend Zencoder
+class Zencoder
+  class Notification < Zencoder
 
     def self.list(options={})
       params = {:api_key  => options.delete(:api_key) || Zencoder.api_key,

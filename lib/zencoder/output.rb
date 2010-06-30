@@ -1,7 +1,5 @@
-module Zencoder
-  module Output
-
-    extend Zencoder
+class Zencoder
+  class Output < Zencoder
 
     def self.progress(output_id, options={})
       params = {:api_key => options.delete(:api_key) || Zencoder.api_key}

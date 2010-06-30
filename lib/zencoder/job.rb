@@ -1,7 +1,5 @@
-module Zencoder
-  module Job
-
-    extend Zencoder
+class Zencoder
+  class Job < Zencoder
 
     def self.create(params={}, options={})
       params_with_api_key = {:api_key => Zencoder.api_key}.merge(params)

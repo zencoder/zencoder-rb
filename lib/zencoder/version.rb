@@ -1,3 +1,3 @@
-module Zencoder
+class Zencoder
   VERSION = '2.0.0'
 end

@@ -1,15 +1,13 @@
 # Ruby's Net/HTTP Sucks
 # Borrowed root cert checking from http://redcorundum.blogspot.com/2008/03/ssl-certificates-and-nethttps.html
 
-module Zencoder
-  class HTTP
+class Zencoder
+  class HTTP < Zencoder
     class NetHTTP
 
       attr_accessor :method, :url, :uri, :body, :params, :headers, :timeout, :options
 
-      class << self
-        attr_accessor :root_cert_paths
-      end
+      cattr_accessor :root_cert_paths
 
       self.root_cert_paths = ['/etc/ssl/certs',
                               '/var/ssl',

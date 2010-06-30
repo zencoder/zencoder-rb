@@ -1,20 +1,16 @@
-module Zencoder
-  class HTTP
-
-    class << self
-      attr_accessor :default_options
-      attr_writer :http_backend
-    end
+class Zencoder
+  class HTTP < Zencoder
 
     attr_accessor :body, :url, :options, :method, :format
+
+    cattr_accessor :default_options
+    cattr_accessor :http_backend
+
+    self.http_backend = Zencoder::HTTP::NetHTTP
 
     self.default_options = {:timeout => 10000,
                             :headers => {'Accept' => 'application/json',
                                          'Content-Type' => 'application/json'}}
-
-    def self.http_backend
-      @http_backend ||= Zencoder::HTTP::NetHTTP
-    end
 
     def initialize(method, url, options={})
       self.method  = method

@@ -1,7 +1,5 @@
-module Zencoder
-  module Account
-
-    extend Zencoder
+class Zencoder
+  class Account < Zencoder
 
     def self.create(params={}, options={})
       Zencoder::HTTP.post("#{Zencoder.base_url}/account", encode(params, options[:format]), options)

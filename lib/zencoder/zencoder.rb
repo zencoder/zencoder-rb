@@ -1,15 +1,11 @@
-module Zencoder
+class Zencoder
 
-  extend self
-
-  class << self
-    attr_accessor :base_url
-    attr_accessor :api_key
-  end
+  cattr_accessor :base_url
+  cattr_accessor :api_key
 
   self.base_url = 'https://app.zencoder.com/api'
 
-  def encode(content, format)
+  def self.encode(content, format)
     if content.is_a?(String)
       content
     elsif format.to_s == 'xml'
@@ -19,7 +15,7 @@ module Zencoder
     end
   end
 
-  def decode(content, format)
+  def self.decode(content, format)
     if content.is_a?(String)
       if format.to_s == 'xml'
         ActiveSupport::XmlMini.parse(content)
@@ -33,7 +29,7 @@ module Zencoder
 
 protected
 
-  def merge_params(options, params)
+  def self.merge_params(options, params)
     if options[:params]
       options[:params] = options[:params].merge(params)
       options
