@@ -6,7 +6,7 @@ class Zencoder
     cattr_accessor :default_options
     cattr_accessor :http_backend
 
-    self.http_backend = Zencoder::HTTP::NetHTTP
+    self.http_backend = NetHTTP
 
     self.default_options = {:timeout => 10000,
                             :headers => {'Accept' => 'application/json',
@@ -39,7 +39,7 @@ class Zencoder
     def perform_method
       process(http_backend.send(method, url, options))
     rescue StandardError => e
-      raise Zencoder::HTTPError, "#{e.class} - #{e.message}"
+      raise HTTPError, "#{e.class} - #{e.message}"
     end
 
     def options=(value)
@@ -72,11 +72,11 @@ class Zencoder
   protected
 
     def process(http_response)
-      response = Zencoder::Response.new
+      response = Response.new
       response.code = http_response.code
 
       begin
-        response.body = Zencoder.decode(http_response.body.to_s, format)
+        response.body = decode(http_response.body.to_s, format)
       rescue StandardError # Hack! Returns different exceptions depending on the decoding engine
         response.body = http_response.body
       end

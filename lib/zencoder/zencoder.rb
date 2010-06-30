@@ -15,6 +15,10 @@ class Zencoder
     end
   end
 
+  def encode(content, format)
+    self.class.encode(content, format)
+  end
+
   def self.decode(content, format)
     if content.is_a?(String)
       if format.to_s == 'xml'
@@ -26,6 +30,11 @@ class Zencoder
       content
     end
   end
+
+  def decode(content, format)
+    self.class.decode(content, format)
+  end
+
 
 protected
 
