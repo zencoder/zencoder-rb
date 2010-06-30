@@ -37,6 +37,16 @@ A Zencoder::Response can be used as follows:
     response.raw_body     # => the body pre-JSON-parsing
     response.raw_response # => the raw Net::HTTP or Typhoeus response (see below for how to use Typhoeus)
 
+### Parameters
+
+When sending API request parameters you can specify them as a non-string object, which we'll then serialize to JSON (by default):
+
+    Zencoder::Job.create({:input => 's3://bucket/key.mp4'})
+
+Or you can specify them as a string, which we'll just pass along as the request body:
+
+    Zencoder::Job.create('{"input": "s3://bucket/key.mp4"}')
+
 ## Jobs
 
 There's more you can do on jobs than anything else in the API. The following methods are available: `list`, `create`, `details`, `progress`, `resubmit`, `cancel`, `delete`.
@@ -157,9 +167,16 @@ See the HTTP backends in this library to get started on your own.
 
 ### Advanced Options
 
-A secondary options hash can be passed to any method call which will then be passed on to the HTTP backend. You can pass `timeout` (in milliseconds), `headers`, and `params` (will be added to the query string) to any of the backends. If you are using Typhoeus, see their documentation for further options.
+A secondary options hash can be passed to any method call which will then be passed on to the HTTP backend. You can pass `timeout` (in milliseconds), `headers`, and `params` (will be added to the query string) to any of the backends. If you are using Typhoeus, see their documentation for further options. In the following example the timeout is set to one second:
 
-    Zencoder::Job.list(:timeout => 1000) # Timeout is 1 second.
+    Zencoder::Job.create({:input => 's3://bucket/key.mp4'}, {:timeout => 1000})
+
+
+### Format
+
+By default we'll send and receive JSON for all our communication. If you would rather use XML then you can pass :format => :xml in the secondary options hash.
+
+    Zencoder::Job.create({:input => 's3://bucket/key.mp4'}, {:format => :xml})
 
 ### Default Options
 
@@ -171,14 +188,20 @@ Default options are passed to the HTTP backend. These can be retrieved and modif
 
 ### SSL
 
-The Net::HTTP backend will do its best to locate your local SSL certs to allow SSL verification. For a list of paths that are checked, see `Zencoder::HTTP::NetHTTP.root_cert_paths`. Feel free to add your own at runtime.
+The Net::HTTP backend will do its best to locate your local SSL certs to allow SSL verification. For a list of paths that are checked, see `Zencoder::HTTP::NetHTTP.root_cert_paths`. Feel free to add your own at runtime. Let us know if we're missing a common location.
 
     Zencoder::HTTP::NetHTTP.root_cert_paths << '/my/custom/cert/path'
 
-## Advanced JSON
+## Advanced JSON and XML
 
-### Alternate JSON Libraries
+### Alternate JSON and XML Libraries
 
-This library uses the `multi_json` gem to encode and decode JSON. It uses the `json_pure` gem by default for compatibility with different ruby implementations. You can change the JSON engine for MultiJson:
+This library uses the `activesupport` gem to encode and decode JSON. The latest versions of ActiveSupport allow you to change the libraries used to decode JSON and XML.
 
-    MultiJson.engine = :yajl
+You can change the JSON decoding backend for ActiveSupport in Rails 2.3 like so:
+
+    ActiveSupport::JSON.backend = "JSONGem"
+
+Or change the XML decoding backend for ActiveSupport in Rails 2.3 like so:
+
+    ActiveSupport::XmlMini.backend = "Nokogiri"
