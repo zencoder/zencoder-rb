@@ -1,5 +1,4 @@
-class Zencoder::Error < StandardError
-end
-
-class Zencoder::HTTPError < Zencoder::Error
+module Zencoder
+  class Error < StandardError; end
+  class HTTPError < Error; end
 end

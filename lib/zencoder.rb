@@ -4,13 +4,7 @@ require 'net/https'
 require 'timeout'
 
 # Gems
-require 'multi_json'
-
-begin
-  MultiJson.engine
-rescue LoadError
-  require 'json'
-end
+require 'active_support' # JSON and XML parsing/encoding
 
 # Zencoder
 require 'zencoder/zencoder'

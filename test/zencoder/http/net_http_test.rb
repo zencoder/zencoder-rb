@@ -45,7 +45,7 @@ class Zencoder::HTTP::TyphoeusTest < Test::Unit::TestCase
         http_stub = stub(:use_ssl= => true, :ca_path= => true, :verify_depth= => true, :request => true)
         http_stub.expects(:verify_mode=).with(OpenSSL::SSL::VERIFY_PEER)
         Net::HTTP.expects(:new).returns(http_stub)
-        Zencoder::HTTP::NetHTTP.expects(:locate_root_cert_path).returns('/fake/path')
+        Zencoder::HTTP::NetHTTP.any_instance.expects(:locate_root_cert_path).returns('/fake/path')
         Zencoder::HTTP::NetHTTP.post('https://example.com/path')
       end
 
@@ -53,7 +53,7 @@ class Zencoder::HTTP::TyphoeusTest < Test::Unit::TestCase
         http_stub = stub(:use_ssl= => true, :ca_path= => true, :verify_depth= => true, :request => true)
         http_stub.expects(:verify_mode=).with(OpenSSL::SSL::VERIFY_NONE)
         Net::HTTP.expects(:new).returns(http_stub)
-        Zencoder::HTTP::NetHTTP.expects(:locate_root_cert_path).returns(nil)
+        Zencoder::HTTP::NetHTTP.any_instance.expects(:locate_root_cert_path).returns(nil)
         Zencoder::HTTP::NetHTTP.post('https://example.com/path')
       end
     end
