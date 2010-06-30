@@ -1,5 +1,4 @@
-gem "multi_json"
-gem "json_pure"
+gem "activesupport"
 
 group :test do
   gem "shoulda"

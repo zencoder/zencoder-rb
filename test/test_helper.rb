@@ -1,8 +1,8 @@
 require 'rubygems'
-require 'test/unit'
-require 'shoulda'
-require 'mocha'
-require 'webmock'
+require 'bundler'
+Bundler.setup
+Bundler.require(:default, :test)
+require 'mocha/integration/test_unit' # Bundler load-order hax
 
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 $LOAD_PATH.unshift(File.dirname(__FILE__))
