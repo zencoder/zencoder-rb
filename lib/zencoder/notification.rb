@@ -2,7 +2,7 @@ class Zencoder
   class Notification < Zencoder
 
     def self.list(options={})
-      params = {:api_key  => options.delete(:api_key) || Zencoder.api_key,
+      params = {:api_key  => options.delete(:api_key) || api_key,
                 :page     => options.delete(:page) || 1,
                 :per_page => options.delete(:per_page) || 50 }
 
