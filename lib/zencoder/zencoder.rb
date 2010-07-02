@@ -22,7 +22,7 @@ class Zencoder
   def self.decode(content, format)
     if content.is_a?(String)
       if format.to_s == 'xml'
-        ActiveSupport::XmlMini.parse(content)
+        Hash.from_xml(content)
       else
         ActiveSupport::JSON.decode(content)
       end
