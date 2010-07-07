@@ -5,21 +5,21 @@ class Zencoder
 
   self.base_url = 'https://app.zencoder.com/api'
 
-  def self.encode(content, format)
+  def self.encode(content, format=nil)
     if content.is_a?(String)
       content
     elsif format.to_s == 'xml'
       content.to_xml
-    elsif
+    else
       content.to_json
     end
   end
 
-  def encode(content, format)
+  def encode(content, format=nil)
     self.class.encode(content, format)
   end
 
-  def self.decode(content, format)
+  def self.decode(content, format=nil)
     if content.is_a?(String)
       if format.to_s == 'xml'
         Hash.from_xml(content)
@@ -31,7 +31,7 @@ class Zencoder
     end
   end
 
-  def decode(content, format)
+  def decode(content, format=nil)
     self.class.decode(content, format)
   end
 
