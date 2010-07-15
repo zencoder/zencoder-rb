@@ -5,7 +5,7 @@ class Zencoder
   class HTTP < Zencoder
     class NetHTTP
 
-      attr_accessor :method, :url, :uri, :body, :params, :headers, :timeout, :options
+      attr_accessor :method, :url, :uri, :body, :params, :headers, :timeout, :skip_ssl_verify, :options
 
       cattr_accessor :root_cert_paths
 
@@ -22,13 +22,14 @@ class Zencoder
                               '/etc/pki/tls']
 
       def initialize(method, url, options)
-        @method  = method
-        @url     = url
-        @body    = options.delete(:body)
-        @params  = options.delete(:params)
-        @headers = options.delete(:headers)
-        @timeout = options.delete(:timeout)
-        @options = options
+        @method          = method
+        @url             = url
+        @body            = options.delete(:body)
+        @params          = options.delete(:params)
+        @headers         = options.delete(:headers)
+        @timeout         = options.delete(:timeout)
+        @skip_ssl_verify = options.delete(:skip_ssl_verify)
+        @options         = options
       end
 
       def self.post(url, options={})
@@ -72,7 +73,7 @@ class Zencoder
         if u.scheme == 'https'
           http.use_ssl = true
 
-          if root_cert_path = locate_root_cert_path
+          if !skip_ssl_verify && root_cert_path = locate_root_cert_path
             http.ca_path = root_cert_path
             http.verify_mode = OpenSSL::SSL::VERIFY_PEER
             http.verify_depth = 5

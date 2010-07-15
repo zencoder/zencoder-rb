@@ -1,4 +1,4 @@
-gem "activesupport"
+gem "activesupport", :require => 'active_support'
 
 group :test do
   gem "shoulda"
