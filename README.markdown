@@ -178,6 +178,16 @@ By default we'll send and receive JSON for all our communication. If you would r
 
     Zencoder::Job.create({:input => 's3://bucket/key.mp4'}, {:format => :xml})
 
+### SSL Verification
+
+We try to find the files necessary for SSL verification on your system, but sometimes this results in an error. If you'd like to skip SSL verification you can pass an option in the secondary options hash.
+
+    Zencoder::Job.create({:input => 's3://bucket/key.mp4'}, {:skip_ssl_verify => true})
+
+Alternatively you can add it to the default options.
+
+    Zencoder::HTTP.default_options.merge!(:skip_ssl_verify => true)
+
 ### Default Options
 
 Default options are passed to the HTTP backend. These can be retrieved and modified.
