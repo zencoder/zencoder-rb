@@ -34,6 +34,11 @@ class Zencoder::HTTP::TyphoeusTest < Test::Unit::TestCase
           Zencoder::HTTP::Typhoeus.delete('https://example.com', {:some => 'options'})
         end
       end
+
+      should "skip ssl verification" do
+        Typhoeus::Request.expects(:get).with('https://example.com', {:disable_ssl_peer_verification => true})
+        Zencoder::HTTP::Typhoeus.get('https://example.com', {:skip_ssl_verify => true})
+      end
     end
 
   end
