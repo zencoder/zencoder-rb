@@ -15,8 +15,8 @@ class Zencoder
     def initialize(method, url, options={})
       self.method  = method
       self.url     = url
-      self.options = options
       self.format  = options.delete(:format)
+      self.options = options
       self.body    = options.delete(:body)
     end
 
@@ -46,8 +46,8 @@ class Zencoder
       @options = default_options.merge(value || {})
 
       options[:headers] ||= {}
-      options[:headers]['Accept'] ||= "application/#{format}"
-      options[:headers]['Content-Type'] ||= "application/#{format}"
+      options[:headers]['Accept'] = "application/#{format}"
+      options[:headers]['Content-Type'] = "application/#{format}"
 
       options
     end

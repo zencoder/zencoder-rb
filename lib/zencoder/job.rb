@@ -2,7 +2,7 @@ class Zencoder
   class Job < Zencoder
 
     def self.create(params={}, options={})
-      params_with_api_key = {:api_key => api_key}.merge(params)
+      params_with_api_key = {:api_key => api_key}.merge(decode(params, options[:format]))
       HTTP.post("#{base_url}/jobs",
                            encode(params_with_api_key, options[:format]),
                            options)
