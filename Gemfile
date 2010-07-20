@@ -6,6 +6,10 @@ group :test do
   gem "webmock"
 end
 
+group :development do
+  gem "ruby-debug"
+end
+
 group :native_extensions do
   gem "typhoeus"
 end

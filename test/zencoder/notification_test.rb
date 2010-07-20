@@ -1,11 +1,12 @@
 require 'test_helper'
 
-class Zencoder::JobTest < Test::Unit::TestCase
+class Zencoder::NotificationTest < Test::Unit::TestCase
 
   context Zencoder::Notification do
     context ".list" do
       setup do
         @url = "#{Zencoder.base_url}/notifications"
+        @api_key = 'asdfasdf'
       end
 
       should "GET the correct url and return a response" do

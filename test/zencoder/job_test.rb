@@ -16,8 +16,20 @@ class Zencoder::JobTest < Test::Unit::TestCase
       end
 
       should "POST to the correct url and return a response" do
-        Zencoder::HTTP.stubs(:post).with(@url, @params_as_json, {}).returns(Zencoder::Response.new)
+        Zencoder::HTTP.expects(:post).with(@url, @params_as_json, {}).returns(Zencoder::Response.new)
         assert_equal Zencoder::Response, Zencoder::Job.create(@params).class
+      end
+
+      should "apply the global API key when JSON and no api_key is passed" do
+        Zencoder.api_key = 'asdfasdf'
+        Zencoder::HTTP.expects(:post).with(@url, {:input => @params[:input], :api_key => Zencoder.api_key}.to_json, {}).returns(Zencoder::Response.new)
+        Zencoder::Job.create(:input => @params[:input])
+      end
+
+      should "apply the global API key when XML and no api_key is passed" do
+        Zencoder.api_key = 'asdfasdf'
+        Zencoder::HTTP.expects(:post).with(@url, {:input => @params[:input], :api_key => Zencoder.api_key}.to_xml(:root => :api_request), {:format => :xml}).returns(Zencoder::Response.new)
+        Zencoder::Job.create({:api_request => {:input => @params[:input]}}, {:format => :xml})
       end
     end
 
