@@ -22,20 +22,27 @@ class Zencoder::JobTest < Test::Unit::TestCase
 
       should "apply the global API key when JSON and no api_key is passed" do
         Zencoder.api_key = 'asdfasdf'
-        Zencoder::HTTP.expects(:post).with(@url, {:input => @params[:input], :api_key => Zencoder.api_key}.to_json, {}).returns(Zencoder::Response.new)
+        Zencoder::HTTP.expects(:post).with do |url, params, options|
+          Zencoder.decode(params)['api_key'] == Zencoder.api_key
+        end.returns(Zencoder::Response.new)
         Zencoder::Job.create(:input => @params[:input])
+        Zencoder.api_key = nil
       end
 
       should "apply the global API key when XML and no api_key is passed" do
         Zencoder.api_key = 'asdfasdf'
-        Zencoder::HTTP.expects(:post).with(@url, {:input => @params[:input], :api_key => Zencoder.api_key}.to_xml(:root => :api_request), {:format => :xml}).returns(Zencoder::Response.new)
+        Zencoder::HTTP.expects(:post).with do |url, params, options|
+          Zencoder.decode(params, :xml)['api_request']['api_key'] == Zencoder.api_key
+        end.returns(Zencoder::Response.new)
         Zencoder::Job.create({:api_request => {:input => @params[:input]}}, {:format => :xml})
         Zencoder.api_key = nil
       end
 
       should "apply the global API key when an XML string is passed and no api_key is passed" do
         Zencoder.api_key = 'asdfasdf'
-        Zencoder::HTTP.expects(:post).with(@url, {:input => @params[:input], :api_key => Zencoder.api_key}.to_xml(:root => :api_request), {:format => :xml}).returns(Zencoder::Response.new)
+        Zencoder::HTTP.expects(:post).with do |url, params, options|
+          Zencoder.decode(params, :xml)['api_request']['api_key'] == Zencoder.api_key
+        end.returns(Zencoder::Response.new)
         Zencoder::Job.create({:input => @params[:input]}.to_xml(:root => :api_request), {:format => :xml})
         Zencoder.api_key = nil
       end

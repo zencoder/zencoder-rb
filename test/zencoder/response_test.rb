@@ -30,6 +30,20 @@ class Zencoder::ResponseTest < Test::Unit::TestCase
         assert_same_elements [], Zencoder::Response.new(:body => {}).errors
       end
     end
+
+    context "#body_without_wrapper" do
+      should "return the body when the body is a string" do
+        assert_equal "some text", Zencoder::Response.new(:body => "some text").body_without_wrapper
+      end
+
+      should "return the body when the body is not wrapped in api_response and is a hash" do
+        assert_equal({'some' => 'hash'}, Zencoder::Response.new(:body => {'some' => 'hash'}).body_without_wrapper)
+      end
+
+      should "return body['api_response'] when body is a hash and body['api_response'] exists" do
+        assert_equal({'some' => 'hash'}, Zencoder::Response.new(:body => {'api_response' => {'some' => 'hash'}}).body_without_wrapper)
+      end
+    end
   end
 
 end

@@ -21,5 +21,13 @@ class Zencoder
       end
     end
 
+    def body_without_wrapper
+      if body.is_a?(Hash) && body['api_response']
+        body['api_response']
+      else
+        body
+      end
+    end
+
   end
 end
