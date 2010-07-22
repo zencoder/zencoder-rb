@@ -6,7 +6,7 @@ class Zencoder
                 :page     => options.delete(:page) || 1,
                 :per_page => options.delete(:per_page) || 50 }
 
-      HTTP.get("#{base_url}/notifications", merge_params(options, params))
+      HTTP.get("#{options[:base_url] || base_url}/notifications", merge_params(options, params))
     end
 
   end
