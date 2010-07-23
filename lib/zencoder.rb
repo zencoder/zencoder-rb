@@ -7,6 +7,7 @@ require 'timeout'
 require 'active_support' # JSON and XML parsing/encoding
 
 # Zencoder
+require 'zencoder/extensions'
 require 'zencoder/zencoder'
 require 'zencoder/http/net_http'
 require 'zencoder/http/typhoeus'

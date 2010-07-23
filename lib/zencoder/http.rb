@@ -10,7 +10,7 @@ class Zencoder
 
     self.default_options = {:timeout => 10000,
                             :headers => {'Accept' => 'application/json',
-                                         'Content-Type' => 'application/json'}}
+                                         'Content-Type' => 'application/json'}}.recursive_with_indifferent_access
 
     def initialize(method, url, options={})
       self.method  = method
@@ -43,7 +43,7 @@ class Zencoder
     end
 
     def options=(value)
-      @options = default_options.merge(value || {})
+      @options = default_options.recursive_with_indifferent_access.merge(value || {})
 
       options[:headers] ||= {}
       options[:headers]['Accept'] = "application/#{format}"
@@ -65,7 +65,7 @@ class Zencoder
     end
 
     def default_options
-      self.class.default_options
+      self.class.default_options.recursive_with_indifferent_access
     end
 
 
