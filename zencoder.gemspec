@@ -6,7 +6,7 @@ require 'zencoder/version'
 
 Gem::Specification.new do |s|
   s.name        = "zencoder"
-  s.version     = Zencoder::VERSION
+  s.version     = Zencoder::GEM_VERSION
   s.platform    = Gem::Platform::RUBY
   s.authors     = "Nathan Sutton"
   s.email       = "nate@zencoder.com"
