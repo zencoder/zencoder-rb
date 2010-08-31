@@ -29,6 +29,12 @@ class Zencoder::HTTPTest < Test::Unit::TestCase
       assert_raises Zencoder::HTTPError do
         Zencoder::HTTP.get('https://example.com')
       end
+
+      begin
+        Zencoder::HTTP.get('https://example.com')
+      rescue Zencoder::HTTPError => e
+        assert_no_match /perform_method/, e.backtrace.first
+      end
     end
 
     should "return a Zencoder::Response" do

@@ -39,7 +39,7 @@ class Zencoder
     def perform_method
       process(http_backend.send(method, url, options))
     rescue StandardError => e
-      raise HTTPError, "#{e.class} - #{e.message}"
+      raise HTTPError.new(e)
     end
 
     def options=(value)
