@@ -24,6 +24,7 @@ class Zencoder::HTTPTest < Test::Unit::TestCase
     should "raise a Zencoder::HTTPError when there is an HTTP error" do
       Zencoder::HTTP.http_backend.expects(:get).
                                   with('https://example.com', Zencoder::HTTP.default_options).
+                                  at_least_once.
                                   raises(Errno::ECONNREFUSED)
 
       assert_raises Zencoder::HTTPError do

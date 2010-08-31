@@ -9,11 +9,31 @@ class Zencoder
     end
 
     def message
-      @message || "#{@error.class} - #{@error.message}"
+      @message || "#{@error.class} (wrapped in a #{self.class}) - #{@error.message}"
     end
 
     def backtrace
-      @error && @error.backtrace || super
+      if @error
+        @error.backtrace
+      else
+        super
+      end
+    end
+
+    def inspect
+      if @error
+        "#{@error.inspect} (wrapped in a #{self.class})"
+      else
+        super
+      end
+    end
+
+    def to_s
+      if @error
+        "#{@error.class} (wrapped in a #{self.class}) - #{@error}"
+      else
+        super
+      end
     end
   end
 
