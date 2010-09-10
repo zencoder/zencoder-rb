@@ -1,10 +1,14 @@
 class Zencoder
 
   cattr_accessor :base_url
-  cattr_accessor :api_key
+  cattr_writer :api_key
+
+  def self.api_key
+    @@api_key || ENV['ZENCODER_API_KEY']
+  end
 
   self.base_url = 'https://app.zencoder.com/api'
-
+  
   def self.encode(content, format=nil)
     if content.is_a?(String)
       content
