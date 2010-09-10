@@ -16,13 +16,15 @@ Tested on the following versions of Ruby:
 
 ## Getting Started
 
-The first thing you'll need to interact with the Zencoder API is your API key. You can use your API key in one of two ways. The first, and in our opinion the best, is to set it and forget it on the Zencoder module like so:
+The first thing you'll need to interact with the Zencoder API is your API key. You can use your API key in one of three ways. The first and easiest is to set it and forget it on the Zencoder module like so:
 
     Zencoder.api_key = 'abcd1234'
 
-Alternatively you can pass your API key in every request, but who wants to do that?
+Alternatively, you can use an environment variable:
 
-We'll include examples of both ways throughout this document.
+    ENV['ZENCODER_API_KEY'] = 'abcd1234'
+
+You can also pass your API key in every request, but who wants to do that?
 
 ## Responses
 
@@ -51,6 +53,22 @@ Or you can specify them as a string, which we'll just pass along as the request 
 
 There's more you can do on jobs than anything else in the API. The following methods are available: `list`, `create`, `details`, `progress`, `resubmit`, `cancel`, `delete`.
 
+### create
+
+The hash you pass to the `create` method should be encodable to the [JSON you would pass to the Job creation API call on Zencoder](http://zencoder.com/docs/api/#encoding-job). We'll auto-populate your API key if you've set it already.
+
+    Zencoder::Job.create({:input => 's3://bucket/key.mp4'})
+    Zencoder::Job.create({:input => 's3://bucket/key.mp4',
+                          :outputs => [{:label => 'vp8 for the web',
+                                        :url => 's3://bucket/key_output.webm'}]})
+    Zencoder::Job.create({:input => 's3://bucket/key.mp4', :api_key => 'abcd1234'})
+
+This returns a Zencoder::Response object. The body includes a Job ID, and one or more Output IDs (one for every output file created).
+
+    response = Zencoder::Job.create({:input => 's3://bucket/key.mp4'})
+    response.code           # => 201
+    response.body['id']      # => 12345
+
 ### list
 
 By default the jobs listing is paginated with 50 jobs per page and sorted by ID in descending order. You can pass two parameters to control the paging: `page` and `per_page`.
@@ -59,16 +77,6 @@ By default the jobs listing is paginated with 50 jobs per page and sorted by ID 
     Zencoder::Job.list(:per_page => 10)
     Zencoder::Job.list(:per_page => 10, :page => 2)
     Zencoder::Job.list(:per_page => 10, :page => 2, :api_key => 'abcd1234')
-
-### create
-
-The hash you pass to the `create` method should be encodable to the [JSON you would pass to the Job creation API call on Zencoder](http://zencoder.com/docs/api/#encoding-job).
-
-    Zencoder::Job.create({:input => 's3://bucket/key.mp4'})
-    Zencoder::Job.create({:input => 's3://bucket/key.mp4',
-                          :outputs => [{:label => 'vp8 for the web',
-                                        :url => 's3://bucket/key_output.webm'}]})
-    Zencoder::Job.create({:input => 's3://bucket/key.mp4', :api_key => 'abcd1234'})
 
 ### details
 
@@ -102,7 +110,7 @@ The number passed to `delete` is the ID of a Zencoder job.
 
 ### progress
 
-Please note that the number passed to `progress` is the output file ID.
+*Important:* the number passed to `progress` is the output file ID, not the Job ID.
 
     Zencoder::Output.progress(1)
     Zencoder::Output.progress(1, :api_key => 'abcd1234')
