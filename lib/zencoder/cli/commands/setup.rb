@@ -12,12 +12,16 @@ module ZencoderCLI::Command
       def run(args, global_options, command_options)
         display("Enter Your Zencoder API Key: ", false)
         save_api_key(global_options[:environment], ask)
-        display("Your API key has been saved to #{home_directory}/.zencoder/api-key.")
+        display "Your API key has been saved to #{home_directory}/.zencoder/api-key."
       end
 
       def delete(args, global_options, command_options)
-        delete_setup
-        display("#{home_directory}/.zencoder has been removed.")
+        if confirm
+          delete_setup
+          display "#{home_directory}/.zencoder has been removed."
+        else
+          display "Ok, nothing changed."
+        end
       end
 
 
