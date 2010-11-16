@@ -6,6 +6,7 @@ require 'zencoder/cli/helpers'
 require 'zencoder/cli/auth'
 require 'zencoder/cli/plugin'
 require 'zencoder/cli/command'
+require 'zencoder/cli/response'
 ZencoderCLI::Plugin.load!
 
 
@@ -18,20 +19,21 @@ Zencoder CLI v#{Zencoder::GEM_VERSION}
 
 == Usage
 
-zencoder command [options]
+zencoder [global-options] command [command-options]
 
 == Available Commands
 
 #{
   ZencoderCLI::Command.commands.sort.map{|group, commands|
     commands.map{|command, description|
-      command.ljust(18)+" # "+description
+      command.ljust(22)+" # "+description
     }.join("\n")
   }.join("\n\n")
 }
 
-== Options
+== Global Options
 EOS
+  opt :environment, "Sets the environment to use (optional: defaults to production)", :type => String
   stop_on ZencoderCLI::Command.commands.map{|k, v| v.keys }.flatten
 end
 
@@ -46,9 +48,9 @@ args = ARGV
 command_banner = <<-EOS
 == Usage
 
-zencoder #{command} [options]
+zencoder [global-options] #{command} [options]
 
-== Options
+== Command Options
 EOS
 command_options = case command
   when "jobs"

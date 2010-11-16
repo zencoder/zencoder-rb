@@ -1,5 +1,7 @@
 module ZencoderCLI::Command
   class Base
+    extend ZencoderCLI::Helpers
+
     class << self
 
       def provides(name, commands={})

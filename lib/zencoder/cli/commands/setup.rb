@@ -1,21 +1,21 @@
 require 'fileutils'
+require 'yaml'
 
 module ZencoderCLI::Command
   class Setup < Base
-    extend ZencoderCLI::Helpers
 
     provides "setup", { "setup"        => "Caches authentication credentials",
                         "setup:delete" => "Removes the cached credentials" }
 
     class << self
 
-      def run(args, options)
-        display("Your Zencoder API Key: ", false)
-        save_api_key(ask)
+      def run(args, global_options, command_options)
+        display("Enter Your Zencoder API Key: ", false)
+        save_api_key(global_options[:environment], ask)
         display("Your API key has been saved to #{home_directory}/.zencoder/api-key.")
       end
 
-      def delete(args, options)
+      def delete(args, global_options, command_options)
         delete_setup
         display("#{home_directory}/.zencoder has been removed.")
       end
@@ -23,16 +23,22 @@ module ZencoderCLI::Command
 
     protected
 
-      def save_api_key(api_key)
+      def save_api_key(environment, api_key)
+        environment = "production" if !environment || environment.blank?
         begin
           FileUtils.mkdir_p("#{home_directory}/.zencoder")
-          File.open("#{home_directory}/.zencoder/api-key", 'w') do |f|
-            f.puts api_key
+          if File.exist?("#{home_directory}/.zencoder/api-key")
+            key_envs = YAML.load_file("#{home_directory}/.zencoder/api-key")
+          else
+            key_envs = {}
+          end
+          key_envs[environment] = api_key
+          File.open("#{home_directory}/.zencoder/api-key", 'w') do |out|
+            YAML.dump(key_envs, out)
           end
           FileUtils.chmod 0700, "#{home_directory}/.zencoder"
           FileUtils.chmod 0600, "#{home_directory}/.zencoder/api-key"
         rescue Exception => e
-          delete_api_key
           raise e
         end
       end
