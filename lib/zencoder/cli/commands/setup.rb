@@ -5,7 +5,7 @@ module ZencoderCLI::Command
   class Setup < Base
 
     provides "setup", { "setup"        => "Caches authentication credentials",
-                        "setup:delete" => "Removes the cached credentials" }
+                        "setup:delete" => "Removes cached credentials and plugins" }
 
     class << self
 
