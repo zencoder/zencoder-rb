@@ -1,11 +1,15 @@
 module ZencoderCLI::Command
   class Jobs < Base
 
-    provides "jobs", { "jobs:list" => "Lists the most recent jobs",
-                       "jobs:show" => "Show job details by ID",
+    provides "jobs", { "jobs:list"     => { :description => "Lists the most recent jobs",
+                                            :options => proc{|t|
+                                              t.opt :number, "Number of jobs returned per page. Default 10.", :type => Integer
+                                              t.opt :page,   "Jobs page number. Default 1.", :type => Integer
+                                            }},
+                       "jobs:show"     => "Show job details by ID",
                        "jobs:resubmit" => "Resubmit a job by ID",
-                       "jobs:cancel" => "Cancels a job by ID",
-                       "jobs:delete" => "Deletes a job by ID" }
+                       "jobs:cancel"   => "Cancels a job by ID",
+                       "jobs:delete"   => "Deletes a job by ID" }
 
     class << self
 

@@ -9,7 +9,6 @@ require 'zencoder/cli/command'
 require 'zencoder/cli/response'
 ZencoderCLI::Plugin.load!
 
-
 global_options = Trollop::options do
   version "Zencoder #{Zencoder::GEM_VERSION}"
   banner <<-EOS
@@ -26,7 +25,7 @@ zencoder [global-options] command [command-options]
 #{
   ZencoderCLI::Command.commands.sort.map{|group, commands|
     commands.map{|command, description|
-      command.ljust(22)+" # "+description
+      command.ljust(22)+" # "+(description.is_a?(String) ? description : description[:description])
     }.join("\n")
   }.join("\n\n")
 }
@@ -45,25 +44,20 @@ end
 command = ARGV.shift.strip
 args = ARGV
 
-command_banner = <<-EOS
+
+flat_commands = ZencoderCLI::Command.commands.values.inject({}){|memo,group| memo.merge!(group) }
+command_options = Trollop::options do
+  banner <<-EOS
 == Usage
 
 zencoder [global-options] #{command} [options]
 
 == Command Options
 EOS
-command_options = case command
-  when "jobs"
-    Trollop::options do
-      banner command_banner
-      opt :number, "Number of jobs returned per page. Default 10.", :type => Integer
-      opt :page,   "Jobs page number. Default 1.", :type => Integer
-    end
-  else
-    Trollop::options do
-      banner command_banner
-    end
+  if flat_commands[command] && flat_commands[command][:options]
+    flat_commands[command][:options].call(self)
   end
+end
 
 
 ZencoderCLI::Command.run(command, args, global_options, command_options)
