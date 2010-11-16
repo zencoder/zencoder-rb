@@ -46,5 +46,16 @@ module ZencoderCLI
       exit
     end
 
+    def truncate(text, *args)
+      options = args.extract_options!
+      options.reverse_merge!(:length => 30, :omission => "...")
+
+      if text
+        l = options[:length] - options[:omission].mb_chars.length
+        chars = text.mb_chars
+        (chars.length > options[:length] ? chars[0...l] + options[:omission] : text).to_s
+      end
+    end
+
   end
 end
