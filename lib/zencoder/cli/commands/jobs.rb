@@ -11,13 +11,17 @@ module ZencoderCLI::Command
 
       def list(args, global_options, command_options)
         jobs = Zencoder::Job.list(:base_url => Zencoder.base_url(global_options[:environment]), :per_page => command_options[:number] || 10, :page => command_options[:page] || 1).body
-        jobs_table = table do |t|
-          t.headings = ["ID", "Created", "State"]
-          jobs.each do |job|
-            t << [job["job"]["id"], format_date(job["job"]["created_at"]), job["job"]["state"].titleize]
+        if jobs.any?
+          jobs_table = table do |t|
+            t.headings = ["ID", "Created", "State"]
+            jobs.each do |job|
+              t << [job["job"]["id"], format_date(job["job"]["created_at"]), job["job"]["state"].titleize]
+            end
           end
+          puts jobs_table
+        else
+          puts "No jobs found."
         end
-        puts jobs_table
       end
 
       def show(args, global_options, command_options)
@@ -26,7 +30,7 @@ module ZencoderCLI::Command
         rows << ["ID", job["id"]]
         rows << ["Submitted", format_date(job["created_at"])]
         rows << ["State", job["state"].titleize]
-        puts table(nil, *rows)
+        puts table([{ :value => "Job", :colspan => 2 }], *rows)
       end
 
       def resubmit(args, global_options, command_options)
