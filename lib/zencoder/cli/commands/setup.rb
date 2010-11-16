@@ -5,6 +5,7 @@ module ZencoderCLI::Command
   class Setup < Base
 
     provides "setup", { "setup"        => "Caches authentication credentials",
+                        "setup:show"   => "Shows your API keys",
                         "setup:delete" => "Removes cached credentials and plugins" }
 
     class << self
@@ -13,6 +14,21 @@ module ZencoderCLI::Command
         display("Enter Your Zencoder API Key: ", false)
         save_api_key(global_options[:environment], ask)
         display "Your API key has been saved to #{home_directory}/.zencoder/api-key."
+      end
+
+      def show(args, global_options, command_options)
+        if File.exist?("#{home_directory}/.zencoder/api-key")
+          keys = YAML.load_file("#{home_directory}/.zencoder/api-key")
+          if keys.length == 1
+            display("Your API Key: ", false)
+            puts keys.values.first
+          else
+            display("Your API Keys: ")
+            puts table(nil, *keys.to_a)
+          end
+        else
+          display("You have no API keys stored. Run `zencoder setup` to get started.")
+        end
       end
 
       def delete(args, global_options, command_options)
