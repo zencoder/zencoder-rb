@@ -1,8 +1,12 @@
 require 'fileutils'
 
 module ZencoderCLI::Command
-  class Setup
+  class Setup < Base
     extend ZencoderCLI::Helpers
+
+    provides "setup", { "setup"        => "Caches authentication credentials",
+                        "setup:delete" => "Removes the cached credentials" }
+
     class << self
 
       def run(args, options)

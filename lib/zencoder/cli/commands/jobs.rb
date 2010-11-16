@@ -1,8 +1,9 @@
-require 'terminal-table/import'
-
 module ZencoderCLI::Command
-  class Jobs
+  class Jobs < Base
     extend ZencoderCLI::Helpers
+
+    provides "jobs", { "jobs:list" => "Lists the most recent jobs" }
+
     class << self
 
       def list(args, options)

@@ -63,6 +63,7 @@ module ZencoderCLI
       FileUtils.rm_r path if File.directory?(path)
     end
 
+
   private
 
     def guess_name(url)
