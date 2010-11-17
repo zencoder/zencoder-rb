@@ -37,7 +37,7 @@ class Zencoder
       end
 
       def self.put(url, options={})
-        new(:get, url, options).perform
+        new(:put, url, options).perform
       end
 
       def self.get(url, options={})
