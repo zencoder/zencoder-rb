@@ -21,5 +21,5 @@ rescue LoadError # doesn't work for all ruby versions
 end
 
 class Test::Unit::TestCase
-  include WebMock
+  include WebMock::API
 end

@@ -15,6 +15,7 @@ Gem::Specification.new do |s|
   s.description = "Zencoder <http://zencoder.com> integration library and CLI client."
   s.rubyforge_project = "zencoder"
   s.add_dependency "activesupport"
+  s.add_dependency "i18n" # Stupid ActiveSupport 3.0
   s.add_dependency "trollop", "~> 1.16.2"
   s.add_dependency "terminal-table", "~> 1.4.2"
   s.add_development_dependency "shoulda"

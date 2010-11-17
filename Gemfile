@@ -1,4 +1,7 @@
-gem "activesupport", :require => 'active_support'
+source :rubygems
+
+gem "activesupport"
+gem "i18n" # Stupid ActiveSupport 3.0
 gem "builder"
 
 group :test do

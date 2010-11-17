@@ -3,16 +3,11 @@ require 'cgi'
 require 'net/https'
 require 'timeout'
 
-# Gems
-require 'active_support' # JSON and XML parsing/encoding
-
-# ActiveSupport 3.0
+# ActiveSupport 3.0 with fallback to 2.0
 begin
-  require 'active_support/core_ext/class'
-  require 'active_support/core_ext/hash'
-  require 'active_support/json'
-  require 'active_support/xml'
+  require 'active_support/all' # Screw it
 rescue LoadError
+  require 'active_support' # JSON and XML parsing/encoding
 end
 
 # Zencoder
