@@ -1,6 +1,14 @@
 require 'rubygems'
-require 'trollop'
-require 'terminal-table/import'
+begin
+  gem 'trollop', '~> 1.16.2'
+  gem 'terminal-table', '~> 1.4.2'
+  require 'trollop'
+  require 'terminal-table/import'
+rescue LoadError
+  puts "You must install the trollop gem (~> 1.16.2) and the terminal-table gem (~> 1.4.2) to use the Zencoder CLI."
+  exit 1
+end
+
 require 'zencoder'
 require 'zencoder/cli/helpers'
 require 'zencoder/cli/auth'
