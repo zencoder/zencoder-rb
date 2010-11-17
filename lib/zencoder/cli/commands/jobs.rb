@@ -15,7 +15,7 @@ module ZencoderCLI::Command
     class << self
 
       def list(args, global_options, command_options)
-        jobs = Zencoder::Job.list(:base_url => Zencoder.base_url(global_options[:environment]), :per_page => command_options[:number] || 10, :page => command_options[:page] || 1).body
+        jobs = Zencoder::Job.list(:base_url => Zencoder.base_url(global_options[:environment]), :per_page => command_options[:number] || 10, :page => command_options[:page] || 1).process_for_cli.body
         if jobs.any?
           jobs_table = table do |t|
             t.headings = ["ID", "Created", "Filename", "Duration", "Size", "Test", "State"]
@@ -40,7 +40,7 @@ module ZencoderCLI::Command
       end
 
       def show(args, global_options, command_options)
-        job = Zencoder::Job.details(args.shift, :base_url => Zencoder.base_url(global_options[:environment])).body["job"]
+        job = Zencoder::Job.details(args.shift, :base_url => Zencoder.base_url(global_options[:environment])).process_for_cli.body["job"]
         rows = []
         rows << ["ID", job["id"]]
         rows << ["Created", format_date(job["created_at"])]
@@ -112,19 +112,19 @@ module ZencoderCLI::Command
 
       def resubmit(args, global_options, command_options)
         job_id = args.shift
-        response = Zencoder::Job.resubmit(job_id, :base_url => Zencoder.base_url(global_options[:environment]))
+        response = Zencoder::Job.resubmit(job_id, :base_url => Zencoder.base_url(global_options[:environment])).process_for_cli
         puts "Job ##{job_id} resubmitted."
       end
 
       def cancel(args, global_options, command_options)
         job_id = args.shift
-        response = Zencoder::Job.cancel(job_id, :base_url => Zencoder.base_url(global_options[:environment]))
+        response = Zencoder::Job.cancel(job_id, :base_url => Zencoder.base_url(global_options[:environment])).process_for_cli
         puts "Job ##{job_id} cancelled."
       end
 
       def delete(args, global_options, command_options)
         job_id = args.shift
-        response = Zencoder::Job.delete(job_id, :base_url => Zencoder.base_url(global_options[:environment]))
+        response = Zencoder::Job.delete(job_id, :base_url => Zencoder.base_url(global_options[:environment])).process_for_cli
         puts "Job ##{job_id} deleted."
       end
 

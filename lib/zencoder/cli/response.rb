@@ -1,20 +1,18 @@
 class Zencoder
-  class HTTP < Zencoder
+  class Response < Zencoder
 
-    def process_with_cli(http_response)
-      response = process_without_cli(http_response)
-      if response.success?
-        response
+    def process_for_cli
+      if success?
+        self
       else
-        if response.errors.any?
-          puts "Errors:\n#{response.errors.map{|error| "* "+error }.join("\n")}"
+        if errors.any?
+          puts "Errors:\n#{errors.map{|error| "* "+error }.join("\n")}"
         else
-          puts "ERROR\n-----\n\n#{response.body}\n\nHTTP Response Code\n------------------\n#{response.code}"
+          puts "ERROR\n-----\n\n#{body}\n\nHTTP Response Code\n------------------\n#{code}"
         end
         exit(1)
       end
     end
-    alias_method_chain :process, :cli
 
   end
 end

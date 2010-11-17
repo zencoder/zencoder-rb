@@ -37,5 +37,5 @@ module ZencoderCLI
   end
 end
 
-
+require 'zencoder/cli/commands/base'
 Dir["#{File.dirname(__FILE__)}/commands/*.rb"].each { |c| require c }
