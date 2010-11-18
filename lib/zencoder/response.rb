@@ -1,5 +1,5 @@
-class Zencoder
-  class Response < Zencoder
+module Zencoder
+  class Response < Base
 
     attr_accessor :code, :body, :raw_body, :raw_response
 

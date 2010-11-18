@@ -1,5 +1,5 @@
-class Zencoder
-  class HTTP < Zencoder
+module Zencoder
+  class HTTP < Base
 
     attr_accessor :body, :url, :options, :method, :format
 

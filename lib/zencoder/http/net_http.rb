@@ -1,8 +1,8 @@
 # Ruby's Net/HTTP Sucks
 # Borrowed root cert checking from http://redcorundum.blogspot.com/2008/03/ssl-certificates-and-nethttps.html
 
-class Zencoder
-  class HTTP < Zencoder
+module Zencoder
+  class HTTP < Base
     class NetHTTP
 
       attr_accessor :method, :url, :uri, :body, :params, :headers, :timeout, :skip_ssl_verify, :options

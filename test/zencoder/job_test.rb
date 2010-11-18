@@ -12,7 +12,7 @@ class Zencoder::JobTest < Test::Unit::TestCase
         @url = "#{Zencoder.base_url}/jobs"
         @params = {:api_key => @api_key,
                    :input   => "s3://bucket-name/file-name.avi"}
-        @params_as_json = Zencoder.encode(@params, :json)
+        @params_as_json = Zencoder::Base.encode(@params, :json)
       end
 
       should "POST to the correct url and return a response" do
@@ -23,7 +23,7 @@ class Zencoder::JobTest < Test::Unit::TestCase
       should "apply the global API key when JSON and no api_key is passed" do
         Zencoder.api_key = 'asdfasdf'
         Zencoder::HTTP.expects(:post).with do |url, params, options|
-          Zencoder.decode(params)['api_key'] == Zencoder.api_key
+          Zencoder::Base.decode(params)['api_key'] == Zencoder.api_key
         end.returns(Zencoder::Response.new)
         Zencoder::Job.create(:input => @params[:input])
         Zencoder.api_key = nil
@@ -32,7 +32,7 @@ class Zencoder::JobTest < Test::Unit::TestCase
       should "apply the global API key when XML and no api_key is passed" do
         Zencoder.api_key = 'asdfasdf'
         Zencoder::HTTP.expects(:post).with do |url, params, options|
-          Zencoder.decode(params, :xml)['api_request']['api_key'] == Zencoder.api_key
+          Zencoder::Base.decode(params, :xml)['api_request']['api_key'] == Zencoder.api_key
         end.returns(Zencoder::Response.new)
         Zencoder::Job.create({:api_request => {:input => @params[:input]}}, {:format => :xml})
         Zencoder.api_key = nil
@@ -41,7 +41,7 @@ class Zencoder::JobTest < Test::Unit::TestCase
       should "apply the global API key when an XML string is passed and no api_key is passed" do
         Zencoder.api_key = 'asdfasdf'
         Zencoder::HTTP.expects(:post).with do |url, params, options|
-          Zencoder.decode(params, :xml)['api_request']['api_key'] == Zencoder.api_key
+          Zencoder::Base.decode(params, :xml)['api_request']['api_key'] == Zencoder.api_key
         end.returns(Zencoder::Response.new)
         Zencoder::Job.create({:input => @params[:input]}.to_xml(:root => :api_request), {:format => :xml})
         Zencoder.api_key = nil

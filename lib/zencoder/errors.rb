@@ -1,5 +1,6 @@
-class Zencoder
+module Zencoder
   class Error < StandardError
+
     def initialize(error_or_message)
       if error_or_message.is_a?(Exception)
         @error = error_or_message
@@ -38,4 +39,5 @@ class Zencoder
   end
 
   class HTTPError < Error; end
+
 end
