@@ -11,8 +11,8 @@ Gem::Specification.new do |s|
   s.authors     = ["Nathan Sutton", "Brandon Arbini"]
   s.email       = "info@zencoder.com"
   s.homepage    = "http://github.com/zencoder/zencoder-rb"
-  s.summary     = "Zencoder <http://zencoder.com> integration library and CLI client."
-  s.description = "Zencoder <http://zencoder.com> integration library and CLI client."
+  s.summary     = "Zencoder <http://zencoder.com> integration library."
+  s.description = "Zencoder <http://zencoder.com> integration library."
   s.rubyforge_project = "zencoder"
   s.add_dependency "activesupport"
   s.add_dependency "i18n" # Stupid ActiveSupport 3.0
@@ -20,6 +20,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency "mocha"
   s.add_development_dependency "webmock"
   s.files        = Dir.glob("bin/**/*") + Dir.glob("lib/**/*") + %w(LICENSE README.markdown Rakefile)
-  s.executables << "zencoder"
   s.require_path = "lib"
 end
