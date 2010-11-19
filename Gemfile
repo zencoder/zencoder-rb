@@ -7,7 +7,7 @@ gem "builder"
 group :test do
   gem "shoulda"
   gem "mocha"
-  gem "webmock"
+  gem "webmock", "~>1.6.0"
 end
 
 group :development do

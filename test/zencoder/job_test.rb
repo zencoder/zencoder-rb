@@ -56,7 +56,8 @@ class Zencoder::JobTest < Test::Unit::TestCase
       should "GET the correct url and return a response" do
         Zencoder::HTTP.stubs(:get).with(@url, {:params => {:api_key => @api_key,
                                                             :page => 1,
-                                                            :per_page => 50}}).returns(Zencoder::Response.new)
+                                                            :per_page => 50,
+                                                            :state => nil}}).returns(Zencoder::Response.new)
         assert_equal Zencoder::Response, Zencoder::Job.list(:api_key => @api_key).class
       end
 
@@ -64,7 +65,8 @@ class Zencoder::JobTest < Test::Unit::TestCase
         Zencoder::HTTP.stubs(:get).with(@url, {:params => {:api_key => @api_key,
                                                            :page => 1,
                                                            :per_page => 50,
-                                                           :some => 'param'}}).returns(Zencoder::Response.new)
+                                                           :some => 'param',
+                                                           :state => nil}}).returns(Zencoder::Response.new)
         assert_equal Zencoder::Response, Zencoder::Job.list(:api_key => @api_key, :params => {:some => 'param'}).class
       end
     end

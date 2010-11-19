@@ -11,7 +11,8 @@ module Zencoder
     def self.list(options={})
       params = {:api_key  => options.delete(:api_key) || api_key,
                 :page     => options.delete(:page) || 1,
-                :per_page => options.delete(:per_page) || 50 }
+                :per_page => options.delete(:per_page) || 50,
+                :state    => options.delete(:state) }
 
       HTTP.get("#{options[:base_url] || base_url}/jobs", merge_params(options, params))
     end
