@@ -190,6 +190,8 @@ By default we'll send and receive JSON for all our communication. If you would r
 
 We try to find the files necessary for SSL verification on your system, but sometimes this results in an error. If you'd like to skip SSL verification you can pass an option in the secondary options hash.
 
+**NOTE: WE HIGHLY DISCOURAGE THIS! THIS WILL LEAVE YOU VULNERABLE TO MAN-IN-THE-MIDDLE ATTACKS!**
+
     Zencoder::Job.create({:input => 's3://bucket/key.mp4'}, {:skip_ssl_verify => true})
 
 Alternatively you can add it to the default options.
