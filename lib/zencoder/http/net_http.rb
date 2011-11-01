@@ -8,7 +8,7 @@ module Zencoder
       attr_accessor :method, :url, :uri, :body, :params, :headers, :timeout, :skip_ssl_verify, :options
 
       class_attribute :root_cert_paths
-      class_attribute :skip_ca_path
+      class_attribute :skip_setting_cert_path
 
       self.root_cert_paths = ['/etc/ssl/certs',
                               '/var/ssl',
@@ -75,8 +75,8 @@ module Zencoder
           http.use_ssl = true
           root_cert_path = locate_root_cert_path
 
-          if !skip_ssl_verify && (self.class.skip_ca_path || root_cert_path)
-            http.ca_path = root_cert_path unless self.class.skip_ca_path
+          if !skip_ssl_verify && (self.class.skip_setting_cert_path || root_cert_path)
+            http.ca_path = root_cert_path unless self.class.skip_setting_cert_path
             http.verify_mode = OpenSSL::SSL::VERIFY_PEER
             http.verify_depth = 5
           else
