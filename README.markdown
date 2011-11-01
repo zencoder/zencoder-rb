@@ -212,6 +212,10 @@ The Net::HTTP backend will do its best to locate your local SSL certs to allow S
 
     Zencoder::HTTP::NetHTTP.root_cert_paths << '/my/custom/cert/path'
 
+If the ruby installed on your system is already aware of where your root cert path is and/or you would like us to NOT set it, you can do the following.
+
+    Zencoder::HTTP::NetHTTP.skip_setting_root_cert_path = true
+
 ## Advanced JSON and XML
 
 ### Alternate JSON and XML Libraries
