@@ -51,7 +51,7 @@ Or you can specify them as a string, which we'll just pass along as the request 
 
 ## Jobs
 
-There's more you can do on jobs than anything else in the API. The following methods are available: `list`, `create`, `details`, `progress`, `resubmit`, `cancel`, `delete`.
+There's more you can do on jobs than anything else in the API. The following methods are available: `list`, `create`, `details`, `resubmit`, `cancel`, `delete`.
 
 ### create
 
