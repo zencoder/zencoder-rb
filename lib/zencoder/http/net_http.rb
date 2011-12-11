@@ -7,8 +7,8 @@ module Zencoder
 
       attr_accessor :method, :url, :uri, :body, :params, :headers, :timeout, :skip_ssl_verify, :options
 
-      class_attribute :root_cert_paths
-      class_attribute :skip_setting_root_cert_path
+      cattr_accessor :root_cert_paths
+      cattr_accessor :skip_setting_root_cert_path
 
       self.root_cert_paths = ['/etc/ssl/certs',
                               '/var/ssl',
