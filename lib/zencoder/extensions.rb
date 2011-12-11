@@ -29,11 +29,3 @@ unless Array.method_defined?(:recursive_with_indifferent_access)
     end
   end
 end
-
-unless String.method_defined?(:shell_escape)
-  class String
-    def shell_escape
-      empty? ? "''" : gsub(/([^A-Za-z0-9_\-.,:\/@\n])/n, '\\\\\\1').gsub(/\n/, "'\n'")
-    end
-  end
-end
