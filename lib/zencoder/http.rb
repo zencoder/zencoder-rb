@@ -1,5 +1,7 @@
 module Zencoder
-  class HTTP < Base
+  class HTTP
+
+    include Zencoder::Serializer
 
     attr_accessor :body, :url, :options, :method, :format
 

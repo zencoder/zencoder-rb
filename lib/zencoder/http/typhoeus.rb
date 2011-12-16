@@ -1,5 +1,5 @@
 module Zencoder
-  class HTTP < Base
+  class HTTP
     class Typhoeus
 
       def self.post(url, options={})

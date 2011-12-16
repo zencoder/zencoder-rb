@@ -1,5 +1,5 @@
 module Zencoder
-  class Account < Base
+  class Account < Resource
 
     def self.create(params={}, options={})
       HTTP.post("#{options[:base_url] || base_url}/account", encode(params, options[:format]), options)

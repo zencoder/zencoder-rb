@@ -1,5 +1,5 @@
 module Zencoder
-  class Job < Base
+  class Job < Resource
 
     def self.create(params={}, options={})
       params = apply_api_key(params, options[:format])

@@ -1,5 +1,5 @@
 module Zencoder
-  class Notification < Base
+  class Notification < Resource
 
     def self.list(options={})
       params = {:api_key  => options.delete(:api_key) || api_key,

@@ -12,8 +12,9 @@ end
 
 # Zencoder
 require 'zencoder/extensions'
+require 'zencoder/serializer'
 require 'zencoder/zencoder'
-require 'zencoder/base'
+require 'zencoder/resource'
 require 'zencoder/http/net_http'
 require 'zencoder/http/typhoeus'
 require 'zencoder/http'

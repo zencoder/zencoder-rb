@@ -2,7 +2,7 @@
 # Borrowed root cert checking from http://redcorundum.blogspot.com/2008/03/ssl-certificates-and-nethttps.html
 
 module Zencoder
-  class HTTP < Base
+  class HTTP
     class NetHTTP
 
       attr_accessor :method, :url, :uri, :body, :params, :headers, :timeout, :skip_ssl_verify, :options
