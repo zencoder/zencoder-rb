@@ -36,8 +36,8 @@ class Zencoder::AccountTest < Test::Unit::TestCase
         @url = "#{Zencoder.base_url}/account/integration"
       end
 
-      should "GET the correct url and return a response" do
-        Zencoder::HTTP.stubs(:get).with(@url, {:params => {:api_key => @api_key}}).returns(Zencoder::Response.new)
+      should "PUT the correct url and return a response" do
+        Zencoder::HTTP.stubs(:put).with(@url, {:params => {:api_key => @api_key}}).returns(Zencoder::Response.new)
         assert_equal Zencoder::Response, Zencoder::Account.integration(:api_key => @api_key).class
       end
     end
@@ -47,8 +47,8 @@ class Zencoder::AccountTest < Test::Unit::TestCase
         @url = "#{Zencoder.base_url}/account/live"
       end
 
-      should "GET the correct url and return a response" do
-        Zencoder::HTTP.stubs(:get).with(@url, {:params => {:api_key => @api_key}}).returns(Zencoder::Response.new)
+      should "PUT the correct url and return a response" do
+        Zencoder::HTTP.stubs(:put).with(@url, {:params => {:api_key => @api_key}}).returns(Zencoder::Response.new)
         assert_equal Zencoder::Response, Zencoder::Account.live(:api_key => @api_key).class
       end
     end

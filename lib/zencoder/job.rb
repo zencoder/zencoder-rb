@@ -24,17 +24,12 @@ module Zencoder
 
     def self.resubmit(job_id, options={})
       params = {:api_key => options.delete(:api_key) || api_key}
-      HTTP.get("#{options[:base_url] || base_url}/jobs/#{job_id}/resubmit", merge_params(options, params))
+      HTTP.put("#{options[:base_url] || base_url}/jobs/#{job_id}/resubmit", merge_params(options, params))
     end
 
     def self.cancel(job_id, options={})
       params = {:api_key => options.delete(:api_key) || api_key}
-      HTTP.get("#{options[:base_url] || base_url}/jobs/#{job_id}/cancel", merge_params(options, params))
-    end
-
-    def self.delete(job_id, options={})
-      params = {:api_key => options.delete(:api_key) || api_key}
-      HTTP.delete("#{options[:base_url] || base_url}/jobs/#{job_id}", merge_params(options, params))
+      HTTP.put("#{options[:base_url] || base_url}/jobs/#{job_id}/cancel", merge_params(options, params))
     end
 
   end

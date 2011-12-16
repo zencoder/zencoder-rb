@@ -12,12 +12,12 @@ module Zencoder
 
     def self.integration(options={})
       params = {:api_key  => options.delete(:api_key) || api_key}
-      HTTP.get("#{options[:base_url] || base_url}/account/integration", merge_params(options, params))
+      HTTP.put("#{options[:base_url] || base_url}/account/integration", merge_params(options, params))
     end
 
     def self.live(options={})
       params = {:api_key  => options.delete(:api_key) || api_key}
-      HTTP.get("#{options[:base_url] || base_url}/account/live", merge_params(options, params))
+      HTTP.put("#{options[:base_url] || base_url}/account/live", merge_params(options, params))
     end
 
   end

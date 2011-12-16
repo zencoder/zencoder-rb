@@ -90,7 +90,7 @@ class Zencoder::JobTest < Test::Unit::TestCase
       end
 
       should "GET the correct url and return a response" do
-        Zencoder::HTTP.stubs(:get).with(@url, {:params => {:api_key => @api_key}}).returns(Zencoder::Response.new)
+        Zencoder::HTTP.stubs(:put).with(@url, {:params => {:api_key => @api_key}}).returns(Zencoder::Response.new)
         assert_equal Zencoder::Response, Zencoder::Job.resubmit(1, :api_key => @api_key).class
       end
     end
@@ -102,21 +102,10 @@ class Zencoder::JobTest < Test::Unit::TestCase
       end
 
       should "GET the correct url and return a response" do
-        Zencoder::HTTP.stubs(:get).with(@url, {:params => {:api_key => @api_key}}).returns(Zencoder::Response.new)
+        Zencoder::HTTP.stubs(:put).with(@url, {:params => {:api_key => @api_key}}).returns(Zencoder::Response.new)
         assert_equal Zencoder::Response, Zencoder::Job.cancel(1, :api_key => @api_key).class
       end
     end
 
-    context ".delete" do
-      setup do
-        @job_id = 1
-        @url = "#{Zencoder.base_url}/jobs/#{@job_id}"
-      end
-
-      should "DELETE the correct url and return a response" do
-        Zencoder::HTTP.stubs(:delete).with(@url, {:params => {:api_key => @api_key}}).returns(Zencoder::Response.new)
-        assert_equal Zencoder::Response, Zencoder::Job.delete(1, :api_key => @api_key).class
-      end
-    end
   end
 end
