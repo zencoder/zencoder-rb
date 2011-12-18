@@ -4,3 +4,4 @@ rdoc
 Gemfile.lock
 .bundle
 /zencoder*.gem
+/tmp
