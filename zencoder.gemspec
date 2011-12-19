@@ -14,8 +14,7 @@ Gem::Specification.new do |s|
   s.summary     = "Zencoder <http://zencoder.com> integration library."
   s.description = "Zencoder <http://zencoder.com> integration library."
   s.rubyforge_project = "zencoder"
-  s.add_dependency "activesupport"
-  s.add_dependency "i18n" # Stupid ActiveSupport 3.0
+  s.add_dependency "multi_json"
   s.add_development_dependency "shoulda"
   s.add_development_dependency "mocha"
   s.add_development_dependency "webmock"

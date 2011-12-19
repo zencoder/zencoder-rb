@@ -3,23 +3,22 @@ module Zencoder
 
     include Zencoder::Serializer
 
-    attr_accessor :body, :url, :options, :method, :format
+    attr_accessor :url, :options, :method
 
-    cattr_accessor :default_options
-    cattr_accessor :http_backend
+    class << self
+      attr_accessor :default_options, :http_backend
+    end
 
     self.http_backend = NetHTTP
 
     self.default_options = {:timeout => 10000,
                             :headers => {'Accept' => 'application/json',
-                                         'Content-Type' => 'application/json'}}.recursive_with_indifferent_access
+                                         'Content-Type' => 'application/json'}}
 
     def initialize(method, url, options={})
       self.method  = method
       self.url     = url
-      self.format  = options.delete(:format)
       self.options = options
-      self.body    = options.delete(:body)
     end
 
     def self.post(url, body, options={})
@@ -45,21 +44,24 @@ module Zencoder
     end
 
     def options=(value)
-      @options = default_options.recursive_with_indifferent_access.merge(value || {})
+      value ||= {}
 
-      options[:headers] ||= {}
-      options[:headers]['Accept'] = "application/#{format}"
-      options[:headers]['Content-Type'] = "application/#{format}"
+      # Hacky, deeper hash merge
+      default_options.keys.each do |key|
+        if value.has_key?(key)
+          if value[key].is_a?(Hash) && default_options[key].is_a?(Hash)
+            value[key] = default_options[key].merge(value[key])
+          end
+        else
+          value[key] = default_options[key]
+        end
+      end
 
-      options
+      @options = value
     end
 
     def options
       @options || self.options = default_options
-    end
-
-    def format
-      @format ||= :json
     end
 
     def http_backend
@@ -67,7 +69,7 @@ module Zencoder
     end
 
     def default_options
-      self.class.default_options.recursive_with_indifferent_access
+      self.class.default_options
     end
 
 
@@ -78,7 +80,7 @@ module Zencoder
       response.code = http_response.code
 
       begin
-        response.body = decode(http_response.body.to_s, format)
+        response.body = decode(http_response.body.to_s)
       rescue StandardError # Hack! Returns different exceptions depending on the decoding engine
         response.body = http_response.body
       end

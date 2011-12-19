@@ -180,12 +180,6 @@ A secondary options hash can be passed to any method call which will then be pas
     Zencoder::Job.create({:input => 's3://bucket/key.mp4'}, {:timeout => 1000})
 
 
-### Format
-
-By default we'll send and receive JSON for all our communication. If you would rather use XML then you can pass :format => :xml in the secondary options hash.
-
-    Zencoder::Job.create({:input => 's3://bucket/key.mp4'}, {:format => :xml})
-
 ### SSL Verification
 
 We try to find the files necessary for SSL verification on your system, but sometimes this results in an error. If you'd like to skip SSL verification you can pass an option in the secondary options hash.
@@ -216,16 +210,8 @@ If the ruby installed on your system is already aware of where your root cert pa
 
     Zencoder::HTTP::NetHTTP.skip_setting_root_cert_path = true
 
-## Advanced JSON and XML
+## Advanced JSON
 
-### Alternate JSON and XML Libraries
+### Alternate JSON Libraries
 
-This library uses the `activesupport` gem to encode and decode JSON. The latest versions of ActiveSupport allow you to change the libraries used to decode JSON and XML.
-
-You can change the JSON decoding backend for ActiveSupport in Rails 2.3 like so:
-
-    ActiveSupport::JSON.backend = "JSONGem"
-
-Or change the XML decoding backend for ActiveSupport in Rails 2.3 like so:
-
-    ActiveSupport::XmlMini.backend = "Nokogiri"
+This library uses the `multi_json` gem to encode and decode JSON. This fantastic gem lets you swap out the JSON backend at will and includes a working JSON encoder/decoder. You can check the [MultiJson](https://github.com/intridea/multi_json) project for more information on how to accomplish this.

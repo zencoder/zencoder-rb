@@ -3,15 +3,10 @@ require 'cgi'
 require 'net/https'
 require 'timeout'
 
-# ActiveSupport 3.0 with fallback to 2.0
-begin
-  require 'active_support/all' # Screw it
-rescue LoadError
-  require 'active_support' # JSON and XML parsing/encoding
-end
+# JSON serialization
+require 'multi_json'
 
 # Zencoder
-require 'zencoder/extensions'
 require 'zencoder/serializer'
 require 'zencoder/zencoder'
 require 'zencoder/resource'

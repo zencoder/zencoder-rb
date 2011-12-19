@@ -7,27 +7,17 @@ module Zencoder
       klass.extend(self)
     end
 
-    def encode(content, format=nil)
+    def encode(content)
       if content.is_a?(String) || content.nil?
         content
-      elsif format.to_s == 'xml'
-        if content.is_a?(Hash) && content.keys.size == 1
-          content[content.keys.first].to_xml(:root => content.keys.first)
-        else
-          content.to_xml
-        end
       else
-        content.to_json
+        MultiJson.encode(content)
       end
     end
 
-    def decode(content, format=nil)
+    def decode(content)
       if content.is_a?(String)
-        if format.to_s == 'xml'
-          Hash.from_xml(content)
-        else
-          ActiveSupport::JSON.decode(content)
-        end
+        MultiJson.decode(content)
       else
         content
       end

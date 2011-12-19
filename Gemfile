@@ -1,8 +1,6 @@
 source :rubygems
 
-gem "activesupport"
-gem "i18n" # Stupid ActiveSupport 3.0
-gem "builder"
+gem "multi_json"
 
 group :test do
   gem "shoulda"

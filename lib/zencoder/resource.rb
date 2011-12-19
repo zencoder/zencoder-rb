@@ -13,13 +13,13 @@ module Zencoder
 
     def self.post(path, params={}, options={})
       url     = url_for(path, options)
-      body    = encode(params, options[:format])
+      body    = encode(params)
       options = add_api_key_header(options)
       HTTP.post(url, body, options)
     end
 
     def self.put(path, params={}, options={})
-      body    = encode(params, options[:format])
+      body    = encode(params)
       url     = url_for(path, options)
       options = add_api_key_header(options)
       HTTP.put(url, body, options)
