@@ -107,6 +107,13 @@ The number passed to `details` is the ID of a Zencoder job.
     Zencoder::Job.details(1)
     Zencoder::Job.details(1, :api_key => 'abcd1234')
 
+### progress
+
+The number passed to `progress` is the ID of a Zencoder job.
+
+    Zencoder::Job.progress(1)
+    Zencoder::Job.progress(1, :api_key => 'abcd1234')
+
 ### resubmit
 
 The number passed to `resubmit` is the ID of a Zencoder job.
@@ -128,7 +135,30 @@ The number passed to `delete` is the ID of a Zencoder job.
     Zencoder::Job.delete(1)
     Zencoder::Job.delete(1, :api_key => 'abcd1234')
 
+## Inputs
+
+### details
+
+The number passed to `details` is the ID of a Zencoder input.
+
+    Zencoder::Input.details(1)
+    Zencoder::Input.details(1, :api_key => 'abcd1234')
+
+### progress
+
+The number passed to `progress` is the ID of a Zencoder input.
+
+    Zencoder::Input.progress(1)
+    Zencoder::Input.progress(1, :api_key => 'abcd1234')
+
 ## Outputs
+
+### details
+
+The number passed to `details` is the ID of a Zencoder output.
+
+    Zencoder::Output.details(1)
+    Zencoder::Output.details(1, :api_key => 'abcd1234')
 
 ### progress
 
@@ -180,6 +210,14 @@ This will put your account into live mode (site-wide).
 
     Zencoder::Account.live
     Zencoder::Account.live(:api_key => 'abcd1234')
+
+## Reports
+
+### minutes
+
+This will list the minutes used for your account within a certain, configurable range.
+
+    Zencoder::Report.minutes(:from => "2011-10-30", :to => "2011-11-24")
 
 ## Advanced HTTP
 
