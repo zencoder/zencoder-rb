@@ -88,7 +88,7 @@ The hash you pass to the `create` method should be encodable to the [JSON you wo
 This returns a Zencoder::Response object. The body includes a Job ID, and one or more Output IDs (one for every output file created).
 
     response = Zencoder::Job.create({:input => 's3://bucket/key.mp4'})
-    response.code           # => 201
+    response.code            # => 201
     response.body['id']      # => 12345
 
 ### list
