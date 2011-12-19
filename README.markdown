@@ -14,6 +14,28 @@ Tested on the following versions of Ruby:
 * Rubinius 1.0.1-20100603
 * jRuby 1.5.1
 
+## v2.4 WARNING!!!
+
+Version 2.4 brings some significant changes to the gem, ones which you should be aware of:
+
+* __Removed dependency on `activesupport`.__ This means that the keys of your hashes should all be symbols except in the case of HTTP headers.
+* __Added dependency on `multi_json`__. This gem allows encoding and decoding to and from JSON without all the baggage of `activesupport`.
+* __Removed support for XML requests.__ Since we're doing all the encoding and decoding in the gem, it didn't make sense to support it any longer. You could still conceivably do this with the gem, but you'd need to encode and decode to and from XML yourself and pass appropriate headers. Let us know if this is a problem for you.
+* __Using header authentication by default.__ Zencoder has always allowed the passing of the API key as an HTTP header (`Zencoder-Api-Key`), but in this library we've traditionally merged it in with your requests. In at least one case this would result in messy deserialization and serialization of parameters. Using this alternative authentication method clears up this problem.
+* __Some actions only work on future versions of the API.__ See the section titled `APIv2` below.
+
+## APIv2
+
+With the release of version two of the Zencoder API, there are some new methods available to you.
+
+* Zencoder::Job.progress(job\_id)
+* Zencoder::Input.details(input\_id)
+* Zencoder::Input.progress(input\_id)
+* Zencoder::Output.details(output\_id)
+* Zencoder::Report.minutes(:from => "2011-01-01", :to => "2011-03-01")
+
+These new methods will not work with newer versions of the API. Please see the Zencoder documentation for more information on APIv2.
+
 ## Getting Started
 
 The first thing you'll need to interact with the Zencoder API is your API key. You can use your API key in one of three ways. The first and easiest is to set it and forget it on the Zencoder module like so:
