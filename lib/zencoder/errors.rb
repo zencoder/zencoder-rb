@@ -15,7 +15,9 @@ module Zencoder
 
     def backtrace
       if @error
-        @error.backtrace
+        error_backtrace = ["--- Backtrace from #{@error.class} ---"] + (@error.backtrace || [])
+        wrapper_backtrace = ["--- Backtrace from #{self.class} ---"] + (super || [])
+        error_backtrace + wrapper_backtrace
       else
         super
       end
