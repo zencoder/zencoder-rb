@@ -17,6 +17,10 @@ module Zencoder
       get("/jobs/#{job_id}", options)
     end
 
+    def self.progress(job_id, options={})
+      get("/jobs/#{job_id}/progress", options)
+    end
+
     def self.resubmit(job_id, options={})
       put("/jobs/#{job_id}/resubmit", nil, options)
     end
