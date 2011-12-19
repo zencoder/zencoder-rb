@@ -26,7 +26,7 @@ class Zencoder::AccountTest < Test::Unit::TestCase
       end
 
       should "GET the correct url and return a response" do
-        Zencoder::HTTP.stubs(:get).with(@url, {:params => {:api_key => @api_key}}).returns(Zencoder::Response.new)
+        Zencoder::HTTP.stubs(:get).with(@url, :headers => { "Zencoder-Api-Key" => @api_key }).returns(Zencoder::Response.new)
         assert_equal Zencoder::Response, Zencoder::Account.details(:api_key => @api_key).class
       end
     end
@@ -37,7 +37,7 @@ class Zencoder::AccountTest < Test::Unit::TestCase
       end
 
       should "PUT the correct url and return a response" do
-        Zencoder::HTTP.stubs(:put).with(@url, {:params => {:api_key => @api_key}}).returns(Zencoder::Response.new)
+        Zencoder::HTTP.stubs(:put).with(@url, nil, :headers => { "Zencoder-Api-Key" => @api_key }).returns(Zencoder::Response.new)
         assert_equal Zencoder::Response, Zencoder::Account.integration(:api_key => @api_key).class
       end
     end
@@ -48,7 +48,7 @@ class Zencoder::AccountTest < Test::Unit::TestCase
       end
 
       should "PUT the correct url and return a response" do
-        Zencoder::HTTP.stubs(:put).with(@url, {:params => {:api_key => @api_key}}).returns(Zencoder::Response.new)
+        Zencoder::HTTP.stubs(:put).with(@url, nil, :headers => { "Zencoder-Api-Key" => @api_key }).returns(Zencoder::Response.new)
         assert_equal Zencoder::Response, Zencoder::Account.live(:api_key => @api_key).class
       end
     end

@@ -2,22 +2,19 @@ module Zencoder
   class Account < Resource
 
     def self.create(params={}, options={})
-      HTTP.post("#{options[:base_url] || base_url}/account", encode(params, options[:format]), options)
+      post("/account", params, options)
     end
 
     def self.details(options={})
-      params = {:api_key  => options.delete(:api_key) || api_key}
-      HTTP.get("#{options[:base_url] || base_url}/account", merge_params(options, params))
+      get("/account", options)
     end
 
     def self.integration(options={})
-      params = {:api_key  => options.delete(:api_key) || api_key}
-      HTTP.put("#{options[:base_url] || base_url}/account/integration", merge_params(options, params))
+      put("/account/integration", nil, options)
     end
 
     def self.live(options={})
-      params = {:api_key  => options.delete(:api_key) || api_key}
-      HTTP.put("#{options[:base_url] || base_url}/account/live", merge_params(options, params))
+      put("/account/live", nil, options)
     end
 
   end
