@@ -8,7 +8,7 @@ module Zencoder
     end
 
     def encode(content, format=nil)
-      if content.is_a?(String)
+      if content.is_a?(String) || content.nil?
         content
       elsif format.to_s == 'xml'
         if content.is_a?(Hash) && content.keys.size == 1

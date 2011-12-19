@@ -20,30 +20,12 @@ class Zencoder::JobTest < Test::Unit::TestCase
         assert_equal Zencoder::Response, Zencoder::Job.create(@params).class
       end
 
-      should "apply the global API key when JSON and no api_key is passed" do
+      should "apply the global API key as a header" do
         Zencoder.api_key = 'asdfasdf'
         Zencoder::HTTP.expects(:post).with do |url, params, options|
-          Zencoder::Serializer.decode(params)['api_key'] == Zencoder.api_key
+          options[:headers]["Zencoder-Api-Key"] == Zencoder.api_key
         end.returns(Zencoder::Response.new)
         Zencoder::Job.create(:input => @params[:input])
-        Zencoder.api_key = nil
-      end
-
-      should "apply the global API key when XML and no api_key is passed" do
-        Zencoder.api_key = 'asdfasdf'
-        Zencoder::HTTP.expects(:post).with do |url, params, options|
-          Zencoder::Serializer.decode(params, :xml)['api_request']['api_key'] == Zencoder.api_key
-        end.returns(Zencoder::Response.new)
-        Zencoder::Job.create({:api_request => {:input => @params[:input]}}, {:format => :xml})
-        Zencoder.api_key = nil
-      end
-
-      should "apply the global API key when an XML string is passed and no api_key is passed" do
-        Zencoder.api_key = 'asdfasdf'
-        Zencoder::HTTP.expects(:post).with do |url, params, options|
-          Zencoder::Serializer.decode(params, :xml)['api_request']['api_key'] == Zencoder.api_key
-        end.returns(Zencoder::Response.new)
-        Zencoder::Job.create({:input => @params[:input]}.to_xml(:root => :api_request), {:format => :xml})
         Zencoder.api_key = nil
       end
     end
@@ -54,19 +36,19 @@ class Zencoder::JobTest < Test::Unit::TestCase
       end
 
       should "GET the correct url and return a response" do
-        Zencoder::HTTP.stubs(:get).with(@url, {:params => {:api_key => @api_key,
-                                                            :page => 1,
+        Zencoder::HTTP.stubs(:get).with(@url, {:params => { :page => 1,
                                                             :per_page => 50,
-                                                            :state => nil}}).returns(Zencoder::Response.new)
+                                                            :state => nil},
+                                               :headers => { "Zencoder-Api-Key" => @api_key }}).returns(Zencoder::Response.new)
         assert_equal Zencoder::Response, Zencoder::Job.list(:api_key => @api_key).class
       end
 
       should "merge params well" do
-        Zencoder::HTTP.stubs(:get).with(@url, {:params => {:api_key => @api_key,
-                                                           :page => 1,
+        Zencoder::HTTP.stubs(:get).with(@url, {:params => {:page => 1,
                                                            :per_page => 50,
                                                            :some => 'param',
-                                                           :state => nil}}).returns(Zencoder::Response.new)
+                                                           :state => nil},
+                                               :headers => { "Zencoder-Api-Key" => @api_key }}).returns(Zencoder::Response.new)
         assert_equal Zencoder::Response, Zencoder::Job.list(:api_key => @api_key, :params => {:some => 'param'}).class
       end
     end
@@ -78,7 +60,7 @@ class Zencoder::JobTest < Test::Unit::TestCase
       end
 
       should "GET the correct url and return a response" do
-        Zencoder::HTTP.stubs(:get).with(@url, {:params => {:api_key => @api_key}}).returns(Zencoder::Response.new)
+        Zencoder::HTTP.stubs(:get).with(@url, :headers => { "Zencoder-Api-Key" => @api_key }).returns(Zencoder::Response.new)
         assert_equal Zencoder::Response, Zencoder::Job.details(1, :api_key => @api_key).class
       end
     end
@@ -89,8 +71,8 @@ class Zencoder::JobTest < Test::Unit::TestCase
         @url = "#{Zencoder.base_url}/jobs/#{@job_id}/resubmit"
       end
 
-      should "GET the correct url and return a response" do
-        Zencoder::HTTP.stubs(:put).with(@url, {:params => {:api_key => @api_key}}).returns(Zencoder::Response.new)
+      should "PUT the correct url and return a response" do
+        Zencoder::HTTP.stubs(:put).with(@url, nil, :headers => {"Zencoder-Api-Key" => @api_key}).returns(Zencoder::Response.new)
         assert_equal Zencoder::Response, Zencoder::Job.resubmit(1, :api_key => @api_key).class
       end
     end
@@ -101,8 +83,8 @@ class Zencoder::JobTest < Test::Unit::TestCase
         @url = "#{Zencoder.base_url}/jobs/#{@job_id}/cancel"
       end
 
-      should "GET the correct url and return a response" do
-        Zencoder::HTTP.stubs(:put).with(@url, {:params => {:api_key => @api_key}}).returns(Zencoder::Response.new)
+      should "PUT the correct url and return a response" do
+        Zencoder::HTTP.stubs(:put).with(@url, nil, :headers => {"Zencoder-Api-Key" => @api_key}).returns(Zencoder::Response.new)
         assert_equal Zencoder::Response, Zencoder::Job.cancel(1, :api_key => @api_key).class
       end
     end
