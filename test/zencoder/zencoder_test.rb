@@ -8,6 +8,7 @@ class ZencoderTest < Test::Unit::TestCase
   end
 
   should "allow ENV variable to set an api key" do
+    Zencoder.api_key = nil
     ENV['ZENCODER_API_KEY'] = "321"
     assert_equal Zencoder::Job.api_key, "321"
   end
