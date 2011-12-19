@@ -14,7 +14,7 @@ class Zencoder::OutputTest < Test::Unit::TestCase
       end
 
       should "GET the correct url and return a response" do
-        Zencoder::HTTP.stubs(:get).with(@url, {:params => {:api_key => @api_key}}).returns(Zencoder::Response.new)
+        Zencoder::HTTP.stubs(:get).with(@url, :headers => { "Zencoder-Api-Key" => @api_key }).returns(Zencoder::Response.new)
         assert_equal Zencoder::Response, Zencoder::Output.progress(@output_id, :api_key => @api_key).class
       end
     end
