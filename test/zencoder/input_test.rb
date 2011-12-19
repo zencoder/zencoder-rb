@@ -1,33 +1,33 @@
 require 'test_helper'
 
-class Zencoder::OutputTest < Test::Unit::TestCase
+class Zencoder::InputTest < Test::Unit::TestCase
 
-  context Zencoder::Output do
+  context Zencoder::Input do
     setup do
       @api_key = 'abc123'
     end
 
     context ".details" do
       setup do
-        @output_id = 1
-        @url = "#{Zencoder.base_url}/outputs/#{@output_id}"
+        @input_id = 1
+        @url = "#{Zencoder.base_url}/inputs/#{@input_id}"
       end
 
       should "GET the correct url and return a response" do
         Zencoder::HTTP.stubs(:get).with(@url, :headers => { "Zencoder-Api-Key" => @api_key }).returns(Zencoder::Response.new)
-        assert_equal Zencoder::Response, Zencoder::Output.details(@output_id, :api_key => @api_key).class
+        assert_equal Zencoder::Response, Zencoder::Input.details(@input_id, :api_key => @api_key).class
       end
     end
 
     context ".progress" do
       setup do
-        @output_id = 1
-        @url = "#{Zencoder.base_url}/outputs/#{@output_id}/progress"
+        @input_id = 1
+        @url = "#{Zencoder.base_url}/inputs/#{@input_id}/progress"
       end
 
       should "GET the correct url and return a response" do
         Zencoder::HTTP.stubs(:get).with(@url, :headers => { "Zencoder-Api-Key" => @api_key }).returns(Zencoder::Response.new)
-        assert_equal Zencoder::Response, Zencoder::Output.progress(@output_id, :api_key => @api_key).class
+        assert_equal Zencoder::Response, Zencoder::Input.progress(@input_id, :api_key => @api_key).class
       end
     end
   end
