@@ -10,9 +10,9 @@ class Zencoder::NotificationTest < Test::Unit::TestCase
       end
 
       should "GET the correct url and return a response" do
-        Zencoder::HTTP.stubs(:get).with(@url, {:params => {:api_key => @api_key,
-                                                            :page => 1,
-                                                            :per_page => 50}}).returns(Zencoder::Response.new)
+        Zencoder::HTTP.stubs(:get).with(@url, {:params => { :page => 1,
+                                                            :per_page => 50},
+                                               :headers => { "Zencoder-Api-Key" => @api_key }}).returns(Zencoder::Response.new)
         assert_equal Zencoder::Response, Zencoder::Notification.list(:api_key => @api_key).class
       end
     end
