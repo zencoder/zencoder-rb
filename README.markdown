@@ -6,13 +6,13 @@ See [http://zencoder.com/docs/api](http://zencoder.com/docs/api) for more detail
 
 Tested on the following versions of Ruby:
 
-* Ruby 1.8.6-p399
-* Ruby 1.8.7-p174
-* Ruby 1.9.1-p378
-* Ruby 1.9.2-preview3
-* Ruby Enterprise Edition 1.8.7-2010.02
-* Rubinius 1.0.1-20100603
-* jRuby 1.5.1
+* Ruby 1.8.6-p420
+* Ruby 1.8.7-p249
+* Ruby 1.8.7-p352
+* Ruby 1.9.2-p290
+* Ruby 1.9.3-p0
+* Rubinius 2.0.0dev
+* jRuby 1.6.5
 
 ## v2.4 WARNING!!!
 
