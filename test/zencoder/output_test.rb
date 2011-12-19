@@ -7,6 +7,18 @@ class Zencoder::OutputTest < Test::Unit::TestCase
       @api_key = 'abc123'
     end
 
+    context ".details" do
+      setup do
+        @output_id = 1
+        @url = "#{Zencoder.base_url}/outputs/#{@output_id}"
+      end
+
+      should "GET the correct url and return a response" do
+        Zencoder::HTTP.stubs(:get).with(@url, :headers => { "Zencoder-Api-Key" => @api_key }).returns(Zencoder::Response.new)
+        assert_equal Zencoder::Response, Zencoder::Output.details(@output_id, :api_key => @api_key).class
+      end
+    end
+
     context ".progress" do
       setup do
         @output_id = 1
