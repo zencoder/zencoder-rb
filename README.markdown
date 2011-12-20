@@ -63,7 +63,7 @@ A Zencoder::Response can be used as follows:
 
 ### Parameters
 
-When sending API request parameters you can specify them as a non-string object, which we'll then serialize to JSON (by default):
+When sending API request parameters you can specify them as a non-string object, which we'll then serialize to JSON:
 
     Zencoder::Job.create({:input => 's3://bucket/key.mp4'})
 
