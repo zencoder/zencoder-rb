@@ -19,8 +19,8 @@ module Zencoder
     end
 
     def self.put(path, params={}, options={})
-      body    = encode(params)
       url     = url_for(path, options)
+      body    = encode(params)
       options = add_api_key_header(options)
       HTTP.put(url, body, options)
     end
