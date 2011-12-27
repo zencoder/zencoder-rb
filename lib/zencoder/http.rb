@@ -12,8 +12,9 @@ module Zencoder
     self.http_backend = NetHTTP
 
     self.default_options = {:timeout => 10000,
-                            :headers => {'Accept' => 'application/json',
-                                         'Content-Type' => 'application/json'}}
+                            :headers => {'Accept'       => 'application/json',
+                                         'Content-Type' => 'application/json',
+                                         'User-Agent'   => "Zencoder-rb v#{Zencoder::GEM_VERSION}"}}
 
     def initialize(method, url, options={})
       self.method  = method

@@ -7,6 +7,7 @@ require 'timeout'
 require 'multi_json'
 
 # Zencoder
+require 'zencoder/version'
 require 'zencoder/serializer'
 require 'zencoder/zencoder'
 require 'zencoder/resource'
