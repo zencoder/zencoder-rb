@@ -39,17 +39,23 @@ These new methods will not work with newer versions of the API. Please see the Z
 
 If you'd like to use the new version of the library but continue using APIv1 until you work through any integration troubles, you can do the following:
 
-    Zencoder.base_url = "https://app.zencoder.com/api/v1"
+```ruby
+Zencoder.base_url = "https://app.zencoder.com/api/v1"
+```
 
 ## Getting Started
 
 The first thing you'll need to interact with the Zencoder API is your API key. You can use your API key in one of three ways. The first and easiest is to set it and forget it on the Zencoder module like so:
 
-    Zencoder.api_key = 'abcd1234'
+```ruby
+Zencoder.api_key = 'abcd1234'
+```
 
 Alternatively, you can use an environment variable:
 
-    ENV['ZENCODER_API_KEY'] = 'abcd1234'
+```ruby
+ENV['ZENCODER_API_KEY'] = 'abcd1234'
+```
 
 You can also pass your API key in every request, but who wants to do that?
 
@@ -59,22 +65,28 @@ All calls in the Zencoder library either raise Zencoder::HTTPError or return a Z
 
 A Zencoder::Response can be used as follows:
 
-    response = Zencoder::Job.list
-    response.success?     # => true if the response code was 200 through 299
-    response.code         # => 200
-    response.body         # => the JSON-parsed body or raw body if unparseable
-    response.raw_body     # => the body pre-JSON-parsing
-    response.raw_response # => the raw Net::HTTP or Typhoeus response (see below for how to use Typhoeus)
+```ruby
+response = Zencoder::Job.list
+response.success?     # => true if the response code was 200 through 299
+response.code         # => 200
+response.body         # => the JSON-parsed body or raw body if unparseable
+response.raw_body     # => the body pre-JSON-parsing
+response.raw_response # => the raw Net::HTTP or Typhoeus response (see below for how to use Typhoeus)
+```
 
 ### Parameters
 
 When sending API request parameters you can specify them as a non-string object, which we'll then serialize to JSON:
 
-    Zencoder::Job.create({:input => 's3://bucket/key.mp4'})
+```ruby
+Zencoder::Job.create({:input => 's3://bucket/key.mp4'})
+```
 
 Or you can specify them as a string, which we'll just pass along as the request body:
 
-    Zencoder::Job.create('{"input": "s3://bucket/key.mp4"}')
+```ruby
+Zencoder::Job.create('{"input": "s3://bucket/key.mp4"}')
+```
 
 ## Jobs
 
@@ -84,61 +96,77 @@ There's more you can do on jobs than anything else in the API. The following met
 
 The hash you pass to the `create` method should be encodable to the [JSON you would pass to the Job creation API call on Zencoder](http://zencoder.com/docs/api/#encoding-job). We'll auto-populate your API key if you've set it already.
 
-    Zencoder::Job.create({:input => 's3://bucket/key.mp4'})
-    Zencoder::Job.create({:input => 's3://bucket/key.mp4',
-                          :outputs => [{:label => 'vp8 for the web',
-                                        :url => 's3://bucket/key_output.webm'}]})
-    Zencoder::Job.create({:input => 's3://bucket/key.mp4', :api_key => 'abcd1234'})
+```ruby
+Zencoder::Job.create({:input => 's3://bucket/key.mp4'})
+Zencoder::Job.create({:input => 's3://bucket/key.mp4',
+                      :outputs => [{:label => 'vp8 for the web',
+                                    :url => 's3://bucket/key_output.webm'}]})
+Zencoder::Job.create({:input => 's3://bucket/key.mp4', :api_key => 'abcd1234'})
+```
 
 This returns a Zencoder::Response object. The body includes a Job ID, and one or more Output IDs (one for every output file created).
 
-    response = Zencoder::Job.create({:input => 's3://bucket/key.mp4'})
-    response.code            # => 201
-    response.body['id']      # => 12345
+```ruby
+response = Zencoder::Job.create({:input => 's3://bucket/key.mp4'})
+response.code            # => 201
+response.body['id']      # => 12345
+```
 
 ### list
 
 By default the jobs listing is paginated with 50 jobs per page and sorted by ID in descending order. You can pass two parameters to control the paging: `page` and `per_page`.
 
-    Zencoder::Job.list
-    Zencoder::Job.list(:per_page => 10)
-    Zencoder::Job.list(:per_page => 10, :page => 2)
-    Zencoder::Job.list(:per_page => 10, :page => 2, :api_key => 'abcd1234')
+```ruby
+Zencoder::Job.list
+Zencoder::Job.list(:per_page => 10)
+Zencoder::Job.list(:per_page => 10, :page => 2)
+Zencoder::Job.list(:per_page => 10, :page => 2, :api_key => 'abcd1234')
+```
 
 ### details
 
 The number passed to `details` is the ID of a Zencoder job.
 
-    Zencoder::Job.details(1)
-    Zencoder::Job.details(1, :api_key => 'abcd1234')
+```ruby
+Zencoder::Job.details(1)
+Zencoder::Job.details(1, :api_key => 'abcd1234')
+```
 
 ### progress
 
 The number passed to `progress` is the ID of a Zencoder job.
 
-    Zencoder::Job.progress(1)
-    Zencoder::Job.progress(1, :api_key => 'abcd1234')
+```ruby
+Zencoder::Job.progress(1)
+Zencoder::Job.progress(1, :api_key => 'abcd1234')
+```
 
 ### resubmit
 
 The number passed to `resubmit` is the ID of a Zencoder job.
 
-    Zencoder::Job.resubmit(1)
-    Zencoder::Job.resubmit(1, :api_key => 'abcd1234')
+```ruby
+Zencoder::Job.resubmit(1)
+Zencoder::Job.resubmit(1, :api_key => 'abcd1234')
+```
 
 ### cancel
 
 The number passed to `cancel` is the ID of a Zencoder job.
 
-    Zencoder::Job.cancel(1)
-    Zencoder::Job.cancel(1, :api_key => 'abcd1234')
+```ruby
+Zencoder::Job.cancel(1)
+Zencoder::Job.cancel(1, :api_key => 'abcd1234')
+```
 
 ### delete
 
 The number passed to `delete` is the ID of a Zencoder job.
 
-    Zencoder::Job.delete(1)
-    Zencoder::Job.delete(1, :api_key => 'abcd1234')
+```ruby
+Zencoder::Job.delete(1)
+Zencoder::Job.delete(1, :api_key => 'abcd1234')
+```
 
 ## Inputs
 
@@ -146,15 +174,19 @@ The number passed to `delete` is the ID of a Zencoder job.
 
 The number passed to `details` is the ID of a Zencoder input.
 
-    Zencoder::Input.details(1)
-    Zencoder::Input.details(1, :api_key => 'abcd1234')
+```ruby
+Zencoder::Input.details(1)
+Zencoder::Input.details(1, :api_key => 'abcd1234')
+```
 
 ### progress
 
 The number passed to `progress` is the ID of a Zencoder input.
 
-    Zencoder::Input.progress(1)
-    Zencoder::Input.progress(1, :api_key => 'abcd1234')
+```ruby
+Zencoder::Input.progress(1)
+Zencoder::Input.progress(1, :api_key => 'abcd1234')
+```
 
 ## Outputs
 
@@ -162,15 +194,19 @@ The number passed to `progress` is the ID of a Zencoder input.
 
 The number passed to `details` is the ID of a Zencoder output.
 
-    Zencoder::Output.details(1)
-    Zencoder::Output.details(1, :api_key => 'abcd1234')
+```ruby
+Zencoder::Output.details(1)
+Zencoder::Output.details(1, :api_key => 'abcd1234')
+```
 
 ### progress
 
 *Important:* the number passed to `progress` is the output file ID, not the Job ID.
 
-    Zencoder::Output.progress(1)
-    Zencoder::Output.progress(1, :api_key => 'abcd1234')
+```ruby
+Zencoder::Output.progress(1)
+Zencoder::Output.progress(1, :api_key => 'abcd1234')
+```
 
 ## Notifications
 
@@ -178,11 +214,13 @@ The number passed to `details` is the ID of a Zencoder output.
 
 By default the jobs listing is paginated with 50 jobs per page and sorted by ID in descending order. You can pass three parameters to control the paging: `page`, `per_page`, and `since_id`. Passing `since_id` will return notifications for jobs created after the job with the given ID.
 
-    Zencoder::Notification.list
-    Zencoder::Notification.list(:per_page => 10)
-    Zencoder::Notification.list(:per_page => 10, :page => 2)
-    Zencoder::Notification.list(:per_page => 10, :page => 2, :since_id => 20)
-    Zencoder::Notification.list(:api_key => 'abcd1234')
+```ruby
+Zencoder::Notification.list
+Zencoder::Notification.list(:per_page => 10)
+Zencoder::Notification.list(:per_page => 10, :page => 2)
+Zencoder::Notification.list(:per_page => 10, :page => 2, :since_id => 20)
+Zencoder::Notification.list(:api_key => 'abcd1234')
+```
 
 ## Accounts
 
@@ -190,31 +228,39 @@ By default the jobs listing is paginated with 50 jobs per page and sorted by ID 
 
 The hash you pass to the `create` method should be encodable to the [JSON you would pass to the Account creation API call on Zencoder](http://zencoder.com/docs/api/#accounts). No API key is required for this call, of course.
 
-    Zencoder::Account.create({:terms_of_service => 1,
-                              :email => 'bob@example.com'})
-    Zencoder::Account.create({:terms_of_service => 1,
-                              :email => 'bob@example.com',
-                              :password => 'abcd1234',
-                              :affiliate_code => 'abcd1234'})
+```ruby
+Zencoder::Account.create({:terms_of_service => 1,
+                          :email => 'bob@example.com'})
+Zencoder::Account.create({:terms_of_service => 1,
+                          :email => 'bob@example.com',
+                          :password => 'abcd1234',
+                          :affiliate_code => 'abcd1234'})
+```
 
 ### details
 
-    Zencoder::Account.details
-    Zencoder::Account.details(:api_key => 'abcd1234')
+```ruby
+Zencoder::Account.details
+Zencoder::Account.details(:api_key => 'abcd1234')
+```
 
 ### integration
 
 This will put your account into integration mode (site-wide).
 
-    Zencoder::Account.integration
-    Zencoder::Account.integration(:api_key => 'abcd1234')
+```ruby
+Zencoder::Account.integration
+Zencoder::Account.integration(:api_key => 'abcd1234')
+```
 
 ### live
 
 This will put your account into live mode (site-wide).
 
-    Zencoder::Account.live
-    Zencoder::Account.live(:api_key => 'abcd1234')
+```ruby
+Zencoder::Account.live
+Zencoder::Account.live(:api_key => 'abcd1234')
+```
 
 ## Reports
 
@@ -222,7 +268,9 @@ This will put your account into live mode (site-wide).
 
 This will list the minutes used for your account within a certain, configurable range.
 
-    Zencoder::Report.minutes(:from => "2011-10-30", :to => "2011-11-24")
+```ruby
+Zencoder::Report.minutes(:from => "2011-10-30", :to => "2011-11-24")
+```
 
 ## Advanced HTTP
 
@@ -230,11 +278,13 @@ This will list the minutes used for your account within a certain, configurable 
 
 By default this library will use Net::HTTP to make all API calls. You can change the backend or add your own:
 
-    require 'typhoeus'
-    Zencoder::HTTP.http_backend = Zencoder::HTTP::Typhoeus
+```ruby
+require 'typhoeus'
+Zencoder::HTTP.http_backend = Zencoder::HTTP::Typhoeus
 
-    require 'my_favorite_http_library'
-    Zencoder::HTTP.http_backend = MyFavoriteHTTPBackend
+require 'my_favorite_http_library'
+Zencoder::HTTP.http_backend = MyFavoriteHTTPBackend
+```
 
 See the HTTP backends in this library to get started on your own.
 
@@ -242,7 +292,9 @@ See the HTTP backends in this library to get started on your own.
 
 A secondary options hash can be passed to any method call which will then be passed on to the HTTP backend. You can pass `timeout` (in milliseconds), `headers`, and `params` (will be added to the query string) to any of the backends. If you are using Typhoeus, see their documentation for further options. In the following example the timeout is set to one second:
 
-    Zencoder::Job.create({:input => 's3://bucket/key.mp4'}, {:timeout => 1000})
+```ruby
+Zencoder::Job.create({:input => 's3://bucket/key.mp4'}, {:timeout => 1000})
+```
 
 
 ### SSL Verification
@@ -251,29 +303,39 @@ We try to find the files necessary for SSL verification on your system, but some
 
 **NOTE: WE HIGHLY DISCOURAGE THIS! THIS WILL LEAVE YOU VULNERABLE TO MAN-IN-THE-MIDDLE ATTACKS!**
 
-    Zencoder::Job.create({:input => 's3://bucket/key.mp4'}, {:skip_ssl_verify => true})
+```ruby
+Zencoder::Job.create({:input => 's3://bucket/key.mp4'}, {:skip_ssl_verify => true})
+```
 
 Alternatively you can add it to the default options.
 
-    Zencoder::HTTP.default_options.merge!(:skip_ssl_verify => true)
+```ruby
+Zencoder::HTTP.default_options.merge!(:skip_ssl_verify => true)
+```
 
 ### Default Options
 
 Default options are passed to the HTTP backend. These can be retrieved and modified.
 
-    Zencoder::HTTP.default_options = {:timeout => 3000,
-                                      :headers => {'Accept' => 'application/json',
-                                                   'Content-Type' => 'application/json'}}
+```ruby
+Zencoder::HTTP.default_options = {:timeout => 3000,
+                                  :headers => {'Accept' => 'application/json',
+                                               'Content-Type' => 'application/json'}}
+```
 
 ### SSL
 
 The Net::HTTP backend will do its best to locate your local SSL certs to allow SSL verification. For a list of paths that are checked, see `Zencoder::HTTP::NetHTTP.root_cert_paths`. Feel free to add your own at runtime. Let us know if we're missing a common location.
 
-    Zencoder::HTTP::NetHTTP.root_cert_paths << '/my/custom/cert/path'
+```ruby
+Zencoder::HTTP::NetHTTP.root_cert_paths << '/my/custom/cert/path'
+```
 
 If the ruby installed on your system is already aware of where your root cert path is and/or you would like us to NOT set it, you can do the following.
 
-    Zencoder::HTTP::NetHTTP.skip_setting_root_cert_path = true
+```ruby
+Zencoder::HTTP::NetHTTP.skip_setting_root_cert_path = true
+```
 
 ## Advanced JSON
 
