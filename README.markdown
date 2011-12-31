@@ -23,6 +23,7 @@ Version 2.4 brings some significant changes to the gem, ones which you should be
 * __Removed support for XML requests.__ Since we're doing all the encoding and decoding in the gem, it didn't make sense to support it any longer. You could still conceivably do this with the gem, but you'd need to encode and decode to and from XML yourself and pass appropriate headers. Let us know if this is a problem for you.
 * __Using header authentication by default.__ Zencoder has always allowed the passing of the API key as an HTTP header (`Zencoder-Api-Key`), but in this library we've traditionally merged it in with your requests. In at least one case this would result in messy deserialization and serialization of parameters. Using this alternative authentication method clears up this problem.
 * __Some actions only work on future versions of the API.__ See the section titled `APIv2` below.
+* __Now defaults to API v2.__ If you'd like to continue using API v1, you should change the base_url as outlined in the section titled `APIv2` below.
 
 ## APIv2
 
@@ -35,6 +36,10 @@ With the release of version two of the Zencoder API, there are some new methods 
 * Zencoder::Report.minutes(:from => "2011-01-01", :to => "2011-03-01")
 
 These new methods will not work with newer versions of the API. Please see the Zencoder documentation for more information on APIv2.
+
+If you'd like to use the new version of the library but continue using APIv1 until you work through any integration troubles, you can do the following:
+
+    Zencoder.base_url = "https://app.zencoder.com/api/v1"
 
 ## Getting Started
 
