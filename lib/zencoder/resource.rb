@@ -12,6 +12,7 @@ module Zencoder
     end
 
     def self.post(path, params={}, options={})
+      options = options.dup
       url     = url_for(path, options)
       body    = encode(params)
       options = add_api_key_header(options)
@@ -19,6 +20,7 @@ module Zencoder
     end
 
     def self.put(path, params={}, options={})
+      options = options.dup
       url     = url_for(path, options)
       body    = encode(params)
       options = add_api_key_header(options)
@@ -26,12 +28,14 @@ module Zencoder
     end
 
     def self.get(path, options={})
+      options = options.dup
       url     = url_for(path, options)
       options = add_api_key_header(options)
       HTTP.get(url, options)
     end
 
     def self.delete(path, options={})
+      options = options.dup
       url     = url_for(path)
       options = add_api_key_header(options)
       HTTP.delete(url, options)
@@ -48,7 +52,11 @@ module Zencoder
       effective_api_key = options.delete(:api_key) || api_key
 
       if effective_api_key
-        options[:headers] ||= {}
+        if options[:headers]
+          options[:headers] = options[:headers].dup
+        else
+          options[:headers] = {}
+        end
         options[:headers]["Zencoder-Api-Key"] = effective_api_key
       end
 

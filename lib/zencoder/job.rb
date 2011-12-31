@@ -6,9 +6,10 @@ module Zencoder
     end
 
     def self.list(options={})
-      params = { :page     => options.delete(:page) || 1,
-                 :per_page => options.delete(:per_page) || 50,
-                 :state    => options.delete(:state) }
+      options = options.dup
+      params  = { :page     => options.delete(:page) || 1,
+                  :per_page => options.delete(:per_page) || 50,
+                  :state    => options.delete(:state) }
 
       get("/jobs", merge_params(options, params))
     end
