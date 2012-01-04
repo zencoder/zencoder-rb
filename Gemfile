@@ -9,10 +9,8 @@ group :test do
 end
 
 group :development do
-  gem "ruby-debug",  :platforms => :mri_18
-  gem "ruby-debug19", :platforms => :mri_19
-end
-
-group :native_extensions do
-  gem "typhoeus"
+  gem "jruby-openssl", :platforms => :jruby
+  gem "ruby-debug",    :platforms => :mri_18
+  gem "ruby-debug19",  :platforms => :mri_19
+  gem "typhoeus",      :platforms => [:mri_18, :mri_19]
 end
