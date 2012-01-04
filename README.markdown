@@ -12,7 +12,6 @@ Tested on the following versions of Ruby:
 * Ruby 1.9.2-p290
 * Ruby 1.9.3-p0
 * Rubinius 2.0.0dev
-* jRuby 1.6.5
 
 ## v2.4 WARNING!!!
 
@@ -24,6 +23,7 @@ Version 2.4 brings some significant changes to the gem, ones which you should be
 * __Using header authentication by default.__ Zencoder has always allowed the passing of the API key as an HTTP header (`Zencoder-Api-Key`), but in this library we've traditionally merged it in with your requests. In at least one case this would result in messy deserialization and serialization of parameters. Using this alternative authentication method clears up this problem.
 * __Some actions only work on future versions of the API.__ See the section titled `APIv2` below.
 * __Now defaults to API v2.__ If you'd like to continue using API v1, you should change the base_url as outlined in the section titled `APIv2` below.
+* __The Zencoder SSL CA chain is now bundled.__ Previously when you used the default HTTP backend (Net::HTTP), we would try to detect the CA path on your system and use it. This led to some frustration for some users and was generally unreliable. We now bundle our SSL CA chain in the library which should make integration easier. Please note that if you were using `Zencoder::HTTP::NetHTTP.root_cert_paths` or `Zencoder::HTTP::NetHTTP.skip_setting_root_cert_path`, they have been removed.
 
 ## APIv2
 
@@ -299,7 +299,7 @@ Zencoder::Job.create({:input => 's3://bucket/key.mp4'}, {:timeout => 1000})
 
 ### SSL Verification
 
-We try to find the files necessary for SSL verification on your system, but sometimes this results in an error. If you'd like to skip SSL verification you can pass an option in the secondary options hash.
+We will use our bundled SSL CA chain for SSL peer verification which should almost always work without a hitch. However, if you'd like to skip SSL verification you can pass an option in the secondary options hash.
 
 **NOTE: WE HIGHLY DISCOURAGE THIS! THIS WILL LEAVE YOU VULNERABLE TO MAN-IN-THE-MIDDLE ATTACKS!**
 
@@ -321,20 +321,6 @@ Default options are passed to the HTTP backend. These can be retrieved and modif
 Zencoder::HTTP.default_options = {:timeout => 3000,
                                   :headers => {'Accept' => 'application/json',
                                                'Content-Type' => 'application/json'}}
-```
-
-### SSL
-
-The Net::HTTP backend will do its best to locate your local SSL certs to allow SSL verification. For a list of paths that are checked, see `Zencoder::HTTP::NetHTTP.root_cert_paths`. Feel free to add your own at runtime. Let us know if we're missing a common location.
-
-```ruby
-Zencoder::HTTP::NetHTTP.root_cert_paths << '/my/custom/cert/path'
-```
-
-If the ruby installed on your system is already aware of where your root cert path is and/or you would like us to NOT set it, you can do the following.
-
-```ruby
-Zencoder::HTTP::NetHTTP.skip_setting_root_cert_path = true
 ```
 
 ## Advanced JSON
