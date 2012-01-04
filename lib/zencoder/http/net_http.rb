@@ -1,27 +1,8 @@
-# Ruby's Net/HTTP Sucks
-# Borrowed root cert checking from http://redcorundum.blogspot.com/2008/03/ssl-certificates-and-nethttps.html
-
 module Zencoder
   class HTTP
     class NetHTTP
 
       attr_accessor :method, :url, :uri, :body, :params, :headers, :timeout, :skip_ssl_verify, :options
-
-      class << self
-        attr_accessor :root_cert_paths, :skip_setting_root_cert_path
-      end
-
-      self.root_cert_paths = ['/etc/ssl/certs',
-                              '/var/ssl',
-                              '/usr/share/ssl',
-                              '/usr/ssl',
-                              '/etc/ssl',
-                              '/usr/local/openssl',
-                              '/usr/lib/ssl',
-                              '/System/Library/OpenSSL',
-                              '/etc/openssl',
-                              '/usr/local/ssl',
-                              '/etc/pki/tls']
 
       def initialize(method, url, options)
         @method          = method
@@ -74,14 +55,13 @@ module Zencoder
 
         if u.scheme == 'https'
           http.use_ssl = true
-          root_cert_path = locate_root_cert_path
 
-          if !skip_ssl_verify && (self.class.skip_setting_root_cert_path || root_cert_path)
-            http.ca_path = root_cert_path unless self.class.skip_setting_root_cert_path
+          if skip_ssl_verify
+            http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+          else
+            http.ca_file = Zencoder::HTTP::CA_CHAIN_PATH
             http.verify_mode = OpenSSL::SSL::VERIFY_PEER
             http.verify_depth = 5
-          else
-            http.verify_mode = OpenSSL::SSL::VERIFY_NONE
           end
         end
 
@@ -130,12 +110,6 @@ module Zencoder
 
       def request_class
         Net::HTTP.const_get(method.to_s.capitalize)
-      end
-
-      def locate_root_cert_path
-        self.class.root_cert_paths.detect do |root_cert_path|
-          File.directory?(root_cert_path)
-        end
       end
 
     end

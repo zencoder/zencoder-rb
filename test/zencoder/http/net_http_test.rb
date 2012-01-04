@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class Zencoder::HTTP::TyphoeusTest < Test::Unit::TestCase
+class Zencoder::HTTP::NetHTTPTest < Test::Unit::TestCase
 
   context Zencoder::HTTP::NetHTTP do
 
@@ -41,27 +41,11 @@ class Zencoder::HTTP::TyphoeusTest < Test::Unit::TestCase
     end
 
     context "SSL verification" do
-      should "verify when the SSL directory is found" do
-        http_stub = stub(:use_ssl= => true, :ca_path= => true, :verify_depth= => true, :request => true)
-        http_stub.expects(:verify_mode=).with(OpenSSL::SSL::VERIFY_PEER)
-        ::Net::HTTP.expects(:new).returns(http_stub)
-        Zencoder::HTTP::NetHTTP.any_instance.expects(:locate_root_cert_path).returns('/fake/path')
-        Zencoder::HTTP::NetHTTP.post('https://example.com/path')
-      end
-
       should "not verify when set to skip ssl verification" do
         http_stub = stub(:use_ssl= => true, :request => true)
         http_stub.expects(:verify_mode=).with(OpenSSL::SSL::VERIFY_NONE)
         ::Net::HTTP.expects(:new).returns(http_stub)
         Zencoder::HTTP::NetHTTP.post('https://example.com/path', :skip_ssl_verify => true)
-      end
-
-      should "not verify when the SSL directory is not found" do
-        http_stub = stub(:use_ssl= => true, :ca_path= => true, :verify_depth= => true, :request => true)
-        http_stub.expects(:verify_mode=).with(OpenSSL::SSL::VERIFY_NONE)
-        ::Net::HTTP.expects(:new).returns(http_stub)
-        Zencoder::HTTP::NetHTTP.any_instance.expects(:locate_root_cert_path).returns(nil)
-        Zencoder::HTTP::NetHTTP.post('https://example.com/path')
       end
     end
 
