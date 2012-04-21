@@ -1,6 +1,6 @@
 source :rubygems
 
-gem "multi_json"
+gem "multi_json", "~> 1.3"
 
 group :test do
   gem "shoulda"
