@@ -11,13 +11,13 @@ module Zencoder
       if content.is_a?(String) || content.nil?
         content
       else
-        MultiJson.encode(content)
+        MultiJson.dump(content)
       end
     end
 
     def decode(content)
       if content.is_a?(String)
-        MultiJson.decode(content)
+        MultiJson.load(content)
       else
         content
       end
