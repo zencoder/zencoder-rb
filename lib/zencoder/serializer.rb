@@ -21,7 +21,7 @@ module Zencoder
 
     def decode(content)
       if content.is_a?(String)
-        if MultiJson.respond_to?(:load)
+        if MultiJson.respond_to?(:dump)
           MultiJson.load(content)
         else
           MultiJson.decode(content)
