@@ -13,7 +13,7 @@ module Zencoder
 
     self.http_backend = NetHTTP
 
-    self.default_options = {:timeout => 10000,
+    self.default_options = {:timeout => 60000,
                             :headers => {'Accept'       => 'application/json',
                                          'Content-Type' => 'application/json',
                                          'User-Agent'   => "Zencoder-rb v#{Zencoder::GEM_VERSION}"}}
