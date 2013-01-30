@@ -70,7 +70,12 @@ module Zencoder
 
       def request
         r = request_class.new(path)
-        r.body = body if body
+        if body
+          r.body = body
+        elsif [:post, :put].include?(@method)
+          r.body = ""
+        end
+
         if headers
           headers.each do |header, value|
             r.add_field(header.to_s, value.to_s)
