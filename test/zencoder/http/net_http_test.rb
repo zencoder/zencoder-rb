@@ -54,12 +54,22 @@ class Zencoder::HTTP::NetHTTPTest < Test::Unit::TestCase
         stub_request(:post, 'https://example.com').with(:body => '{}')
         Zencoder::HTTP::NetHTTP.post('https://example.com', :body => '{}')
       end
+
+      should "POST with an empty body if none is provided" do
+        stub_request(:post, 'https://example.com').with(:body => '')
+        Zencoder::HTTP::NetHTTP.post('https://example.com')
+      end
     end
 
     context ".put" do
       should "PUT to specified body to the specified path" do
         stub_request(:put, 'https://example.com').with(:body => '{}')
         Zencoder::HTTP::NetHTTP.put('https://example.com', :body => '{}')
+      end
+
+      should "PUT with an empty body if none is provided" do
+        stub_request(:put, 'https://example.com').with(:body => '')
+        Zencoder::HTTP::NetHTTP.put('https://example.com')
       end
     end
 
