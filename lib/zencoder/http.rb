@@ -75,11 +75,15 @@ module Zencoder
       self.class.default_options
     end
 
+    def inspect
+      "#{method.to_s.upcase} #{url}\nOptions: " + options.inspect
+    end
 
   protected
 
     def process(http_response)
       response = Response.new
+      response.request = self
       response.code = http_response.code
 
       begin

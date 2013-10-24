@@ -7,12 +7,12 @@ module Zencoder
       def initialize(method, url, options)
         @method          = method
         @url             = url
-        @body            = options.delete(:body)
-        @params          = options.delete(:params)
-        @headers         = options.delete(:headers)
-        @timeout         = options.delete(:timeout)
-        @skip_ssl_verify = options.delete(:skip_ssl_verify)
-        @options         = options
+        @options         = options.dup
+        @body            = @options.delete(:body)
+        @params          = @options.delete(:params)
+        @headers         = @options.delete(:headers)
+        @timeout         = @options.delete(:timeout)
+        @skip_ssl_verify = @options.delete(:skip_ssl_verify)
       end
 
       def self.post(url, options={})
