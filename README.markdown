@@ -46,6 +46,12 @@ Zencoder.base_url = "https://app.zencoder.com/api/v1"
 
 ## Getting Started
 
+To install the gem on Rails, simply add it to your Gemfile:
+
+```ruby
+gem "zencoder", "~> 2.0"
+```
+
 The first thing you'll need to interact with the Zencoder API is your API key. You can use your API key in one of three ways. The first and easiest is to set it and forget it on the Zencoder module like so:
 
 ```ruby
