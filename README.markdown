@@ -35,6 +35,9 @@ With the release of version two of the Zencoder API, there are some new methods 
 * Zencoder::Input.progress(input\_id)
 * Zencoder::Output.details(output\_id)
 * Zencoder::Report.minutes(:from => "2011-01-01", :to => "2011-03-01")
+* Zencoder::Report.all(:from => "2011-01-01", :to => "2011-03-01")
+* Zencoder::Report.live(:from => "2011-01-01", :to => "2011-03-01")
+* Zencoder::Report.vod(:from => "2011-01-01", :to => "2011-03-01")
 
 These new methods will not work with older versions of the API. Please see the [Zencoder documentation](https://app.zencoder.com/docs) and our [blog post on the subject](http://blog.zencoder.com/2012/01/05/announcing-zencoder-api-v2/) for more information on APIv2.
 
@@ -277,6 +280,30 @@ This will list the minutes used for your account within a certain, configurable 
 
 ```ruby
 Zencoder::Report.minutes(:from => "2011-10-30", :to => "2011-11-24")
+```
+
+### all
+
+This will list all usage, including VOD and Live for your account within a certain, configurable range.
+
+```ruby
+Zencoder::Report.all(:from => "2011-10-30", :to => "2011-11-24")
+```
+
+### vod
+
+This will list just VOD usage for your account within a certain, configurable range.
+
+```ruby
+Zencoder::Report.vod(:from => "2011-10-30", :to => "2011-11-24")
+```
+
+### live
+
+This will list just Live usage for your account within a certain, configurable range.
+
+```ruby
+Zencoder::Report.live(:from => "2011-10-30", :to => "2011-11-24")
 ```
 
 ## Advanced HTTP
