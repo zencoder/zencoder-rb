@@ -4,7 +4,8 @@ gem "multi_json"
 gem "rake"
 
 group :test do
-  gem "shoulda"
+  gem "shoulda", "2.11.3"
+  gem "activesupport", "3.2.16"
   gem "mocha"
   gem "webmock", "~>1.6.0"
 end
