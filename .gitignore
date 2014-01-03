@@ -6,3 +6,4 @@ Gemfile.lock
 /zencoder*.gem
 /tmp
 /.rbx
+.zenflow-log
