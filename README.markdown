@@ -11,6 +11,7 @@ Tested on the following versions of Ruby:
 * Ruby 1.8.7-p352
 * Ruby 1.9.2-p290
 * Ruby 1.9.3-p0
+* Ruby 2.0.0-p353
 * Rubinius 2.0.0dev
 * jRuby 1.6.5
 
