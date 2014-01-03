@@ -13,16 +13,16 @@ class Zencoder::ReportTest < Test::Unit::TestCase
                                                           :to => "2011-06-01",
                                                           :grouping => "foo"},
                                              :headers => { "Zencoder-Api-Key" => @api_key }}).returns(Zencoder::Response.new)
-      assert_equal Zencoder::Response, Zencoder::Report.minutes(:api_key => @api_key, :params => { :from => "2011-01-01",
-                                                                                                   :to => "2011-06-01",
-                                                                                                   :grouping => "foo" }).class
+      assert_equal Zencoder::Response, Zencoder::Report.minutes(:api_key => @api_key, :from => "2011-01-01",
+                                                                                      :to => "2011-06-01",
+                                                                                      :grouping => "foo").class
     end
 
     should "merge params well" do
       Zencoder::HTTP.stubs(:get).with(@url, {:params => { :from => "2011-01-01",
                                                           :to => "2011-06-01"},
                                              :headers => { "Zencoder-Api-Key" => @api_key }}).returns(Zencoder::Response.new)
-      assert_equal Zencoder::Response, Zencoder::Report.minutes(:api_key => @api_key, :params => {:from => "2011-01-01", :to => "2011-06-01"}).class
+      assert_equal Zencoder::Response, Zencoder::Report.minutes(:api_key => @api_key, :from => "2011-01-01", :to => "2011-06-01").class
     end
   end
 
