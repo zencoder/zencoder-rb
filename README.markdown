@@ -83,6 +83,7 @@ response.code         # => 200
 response.body         # => the JSON-parsed body or raw body if unparseable
 response.raw_body     # => the body pre-JSON-parsing
 response.raw_response # => the raw Net::HTTP or Typhoeus response (see below for how to use Typhoeus)
+response.request      # => the request object, you can inspect it if you need details on the request to debug it
 ```
 
 ### Parameters

@@ -1,7 +1,7 @@
 module Zencoder
   class Response
 
-    attr_accessor :code, :body, :raw_body, :raw_response
+    attr_accessor :request, :code, :body, :raw_body, :raw_response
 
     def initialize(options={})
       options.each do |k, v|

@@ -19,6 +19,7 @@ module Zencoder
       end
 
       def self.perform(method, url, options={})
+        options = options.dup
         if options.delete(:skip_ssl_verify)
           options[:disable_ssl_peer_verification] = true
         end
