@@ -30,5 +30,9 @@ module Zencoder
       put("/jobs/#{job_id}/cancel", nil, options)
     end
 
+    def self.finish(job_id, options={})
+      put("/jobs/#{job_id}/finish", nil, options)
+    end
+
   end
 end
