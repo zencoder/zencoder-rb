@@ -101,5 +101,17 @@ class Zencoder::JobTest < Test::Unit::TestCase
       end
     end
 
+    context ".finish" do
+      setup do
+        @job_id = 1
+        @url = "#{Zencoder.base_url}/jobs/#{@job_id}/finish"
+      end
+
+      should "PUT the correct url and return a response" do
+        Zencoder::HTTP.stubs(:put).with(@url, nil, :headers => {"Zencoder-Api-Key" => @api_key}).returns(Zencoder::Response.new)
+        assert_equal Zencoder::Response, Zencoder::Job.finish(1, :api_key => @api_key).class
+      end
+    end
+
   end
 end
