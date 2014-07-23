@@ -41,11 +41,24 @@ class Zencoder::HTTP::NetHTTPTest < Test::Unit::TestCase
     end
 
     context "SSL verification" do
+      setup do
+        @http_stub = stub(:use_ssl= => true, :request => true, :verify_mode= => true)
+        ::Net::HTTP.expects(:new).returns(@http_stub)
+      end
+
       should "not verify when set to skip ssl verification" do
-        http_stub = stub(:use_ssl= => true, :request => true)
-        http_stub.expects(:verify_mode=).with(OpenSSL::SSL::VERIFY_NONE)
-        ::Net::HTTP.expects(:new).returns(http_stub)
+        @http_stub.expects(:verify_mode=).with(OpenSSL::SSL::VERIFY_NONE)
         Zencoder::HTTP::NetHTTP.post('https://example.com/path', :skip_ssl_verify => true)
+      end
+
+      should "set the ca_file" do
+        @http_stub.expects(:ca_file=).with("/foo/bar/baz.crt")
+        Zencoder::HTTP::NetHTTP.post('https://example.com/path', :ca_file => "/foo/bar/baz.crt")
+      end
+
+      should "set the ca_path" do
+        @http_stub.expects(:ca_path=).with("/foo/bar/")
+        Zencoder::HTTP::NetHTTP.post('https://example.com/path', :ca_path => "/foo/bar/")
       end
     end
 

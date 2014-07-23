@@ -24,6 +24,14 @@ module Zencoder
           options[:disable_ssl_peer_verification] = true
         end
 
+        if ca_file = options.delete(:ca_file)
+          options[:sslcert] = ca_file
+        end
+
+        if ca_path = options.delete(:ca_path)
+          options[:capath] = ca_path
+        end
+
         ::Typhoeus::Request.send(method, url, options)
       end
 

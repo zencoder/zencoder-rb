@@ -2,7 +2,7 @@ module Zencoder
   class HTTP
     class NetHTTP
 
-      attr_accessor :method, :url, :uri, :body, :params, :headers, :timeout, :skip_ssl_verify, :options
+      attr_accessor :method, :url, :uri, :body, :params, :headers, :timeout, :skip_ssl_verify, :options, :ca_file, :ca_path
 
       def initialize(method, url, options)
         @method          = method
@@ -13,6 +13,8 @@ module Zencoder
         @headers         = @options.delete(:headers)
         @timeout         = @options.delete(:timeout)
         @skip_ssl_verify = @options.delete(:skip_ssl_verify)
+        @ca_file         = @options.delete(:ca_file)
+        @ca_path         = @options.delete(:ca_path)
       end
 
       def self.post(url, options={})
@@ -59,10 +61,11 @@ module Zencoder
           if skip_ssl_verify
             http.verify_mode = OpenSSL::SSL::VERIFY_NONE
           else
-            http.ca_file = Zencoder::HTTP::CA_CHAIN_PATH
             http.verify_mode = OpenSSL::SSL::VERIFY_PEER
-            http.verify_depth = 5
           end
+
+          http.ca_file = ca_file if ca_file
+          http.ca_path = ca_path if ca_path
         end
 
         http

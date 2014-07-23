@@ -1,8 +1,6 @@
 module Zencoder
   class HTTP
 
-    CA_CHAIN_PATH = File.expand_path(File.join(File.dirname(__FILE__), "http", "resources", "zencoder_ca_chain.crt"))
-
     include Zencoder::Serializer
 
     attr_accessor :url, :options, :method
