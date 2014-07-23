@@ -1,3 +1,3 @@
 module Zencoder
-  GEM_VERSION = '2.4.6'
+  GEM_VERSION = '2.5.0'
 end
