@@ -15,6 +15,12 @@ Tested on the following versions of Ruby:
 * Rubinius 2.0.0dev
 * jRuby 1.6.5
 
+## 2.5 WARNING!!!
+
+Version 2.5 brings a single, significant change to the gem which you should be aware of:
+
+* __The Zencoder SSL CA chain is no longer bundled.__ Our cert is expiring and the necessary file may change in the future. You can now specify the CA file or CA path along with the request.
+
 ## v2.4 WARNING!!!
 
 Version 2.4 brings some significant changes to the gem, ones which you should be aware of:
@@ -335,7 +341,25 @@ Zencoder::Job.create({:input => 's3://bucket/key.mp4'}, {:timeout => 1000})
 
 ### SSL Verification
 
-We will use our bundled SSL CA chain for SSL peer verification which should almost always work without a hitch. However, if you'd like to skip SSL verification you can pass an option in the secondary options hash.
+SSL verification using the default Net::HTTP backend requires that your ruby be appropriately configured with up to date path to a cert bundle on your system or by specifying the a CA file or CA path when sending requests.
+
+```ruby
+Zencoder::Job.create({:input => 's3://bucket/key.mp4'}, {:ca_path => "/path/to/certs/"})
+# or
+Zencoder::Job.create({:input => 's3://bucket/key.mp4'}, {:ca_file => "/path/to/certs/zen.crt"})
+```
+
+Alternatively you can add it to the default options.
+
+```ruby
+Zencoder::HTTP.default_options.merge!(:ca_path => "/path/to/certs/")
+# or
+Zencoder::HTTP.default_options.merge!(:ca_file => "/path/to/certs/zen.crt")
+```
+
+You can get a CA bundle from [the curl website](http://curl.haxx.se/docs/caextract.html), but it is recommended that you use your system's package manager to install these certs and keep them up to date.
+
+However, if you'd like to skip SSL verification you can pass an option in the secondary options hash.
 
 **NOTE: WE HIGHLY DISCOURAGE THIS! THIS WILL LEAVE YOU VULNERABLE TO MAN-IN-THE-MIDDLE ATTACKS!**
 
