@@ -254,6 +254,7 @@ Zencoder::Account.create({:terms_of_service => 1,
 Zencoder::Account.create({:terms_of_service => 1,
                           :email => 'bob@example.com',
                           :password => 'abcd1234',
+                          :password_confirmation => 'abcd1234',
                           :affiliate_code => 'abcd1234'})
 ```
 
