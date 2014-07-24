@@ -19,7 +19,9 @@ Tested on the following versions of Ruby:
 
 Version 2.5 brings a single, significant change to the gem which you should be aware of:
 
-* __The Zencoder SSL CA chain is no longer bundled.__ Our cert is expiring and the necessary file may change in the future. You can now specify the CA file or CA path along with the request.
+* __The Zencoder SSL CA chain is no longer bundled.__ Our intermediate SSL cert is expiring and the necessary file may change in the future. You can now specify the CA file or CA path along with the request.
+
+[We recommend installing a CA bundle (probably cURL's) in your OS and have ruby use that.](http://mislav.uniqpath.com/2013/07/ruby-openssl/)
 
 ## v2.4 WARNING!!!
 
