@@ -42,24 +42,45 @@ class Zencoder::HTTP::NetHTTPTest < Test::Unit::TestCase
 
     context "SSL verification" do
       setup do
-        @http_stub = stub(:use_ssl= => true, :request => true, :verify_mode= => true)
+        @cert_store = stub(:add_file => true, :add_path => true, :flags= => true, :set_default_paths => true)
+        @http_stub = stub(:use_ssl= => true, :request => true, :verify_mode= => true, :cert_store= => true, :cert_store => @cert_store)
         ::Net::HTTP.expects(:new).returns(@http_stub)
       end
 
-      should "not verify when set to skip ssl verification" do
-        @http_stub.expects(:verify_mode=).with(OpenSSL::SSL::VERIFY_NONE)
-        Zencoder::HTTP::NetHTTP.post('https://example.com/path', :skip_ssl_verify => true)
+      context "when set to skip ssl verification" do
+        should "not verify" do
+          @http_stub.expects(:verify_mode=).with(OpenSSL::SSL::VERIFY_NONE)
+          Zencoder::HTTP::NetHTTP.post('https://example.com/path', :skip_ssl_verify => true)
+        end
+
+        should "not setup a custom cert store" do
+          @http_stub.expects(:cert_store=).never
+          Zencoder::HTTP::NetHTTP.post('https://example.com/path', :skip_ssl_verify => true)
+        end
       end
 
-      should "set the ca_file" do
-        @http_stub.expects(:ca_file=).with("/foo/bar/baz.crt")
-        Zencoder::HTTP::NetHTTP.post('https://example.com/path', :ca_file => "/foo/bar/baz.crt")
+      context "when set to do ssl verification" do
+        should "setup a custom cert store" do
+          @http_stub.expects(:cert_store=)
+          Zencoder::HTTP::NetHTTP.post('https://example.com/path')
+        end
+
+        should "set the default paths on the custom cert store" do
+          @cert_store.expects(:set_default_paths)
+          Zencoder::HTTP::NetHTTP.post('https://example.com/path')
+        end
+
+        should "set the ca_file when it is passed in" do
+          @cert_store.expects(:add_file).with("/foo/bar/baz.crt")
+          Zencoder::HTTP::NetHTTP.post('https://example.com/path', :ca_file => "/foo/bar/baz.crt")
+        end
+
+        should "set the ca_path when it is passed in" do
+          @cert_store.expects(:add_path).with("/foo/bar/")
+          Zencoder::HTTP::NetHTTP.post('https://example.com/path', :ca_path => "/foo/bar/")
+        end
       end
 
-      should "set the ca_path" do
-        @http_stub.expects(:ca_path=).with("/foo/bar/")
-        Zencoder::HTTP::NetHTTP.post('https://example.com/path', :ca_path => "/foo/bar/")
-      end
     end
 
     context ".post" do

@@ -2,7 +2,14 @@ require 'rubygems'
 require 'bundler'
 Bundler.setup
 Bundler.require(:default, :test)
-require 'mocha/integration/test_unit' # Bundler load-order hax
+
+begin
+  require "minitest/unit"
+  require "mocha/mini_test"
+rescue LoadError
+  require "test/unit"
+  require "mocha/test_unit"
+end
 
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 $LOAD_PATH.unshift(File.dirname(__FILE__))
