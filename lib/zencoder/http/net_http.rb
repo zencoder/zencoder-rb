@@ -62,10 +62,17 @@ module Zencoder
             http.verify_mode = OpenSSL::SSL::VERIFY_NONE
           else
             http.verify_mode = OpenSSL::SSL::VERIFY_PEER
-          end
 
-          http.ca_file = ca_file if ca_file
-          http.ca_path = ca_path if ca_path
+            http.cert_store = OpenSSL::X509::Store.new
+            http.cert_store.set_default_paths
+
+            if defined?(OpenSSL::X509::V_FLAG_CRL_CHECK_ALL)
+              http.cert_store.flags = OpenSSL::X509::V_FLAG_CRL_CHECK_ALL
+            end
+
+            http.cert_store.add_file(ca_file) if ca_file
+            http.cert_store.add_path(ca_path) if ca_path
+          end
         end
 
         http
