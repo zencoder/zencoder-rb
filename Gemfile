@@ -10,7 +10,7 @@ end
 
 group :development do
   gem "jruby-openssl", :platforms => :jruby
-  gem "typhoeus",      :platforms => [:mri_18, :mri_19, :mri_20]
+  gem "typhoeus",      :platforms => [:mri_18, :mri_19, :mri_20, :mri_21]
 end
 
 group :test, :development do
