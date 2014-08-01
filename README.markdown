@@ -1,5 +1,7 @@
 # Zencoder
 
+[![Build Status](https://travis-ci.org/zencoder/zencoder-rb.svg?branch=master)](https://travis-ci.org/zencoder/zencoder-rb)
+
 The gem for interacting with the API on [Zencoder](http://zencoder.com).
 
 See [http://zencoder.com/docs/api](http://zencoder.com/docs/api) for more details on the API.
