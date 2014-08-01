@@ -15,9 +15,6 @@ Gem::Specification.new do |s|
   s.description = "Zencoder <http://zencoder.com> integration library."
   s.rubyforge_project = "zencoder"
   s.add_dependency "multi_json"
-  s.add_development_dependency "shoulda"
-  s.add_development_dependency "mocha"
-  s.add_development_dependency "webmock"
   s.files        = Dir.glob("bin/**/*") + Dir.glob("lib/**/*") + %w(LICENSE README.markdown Rakefile)
   s.require_path = "lib"
 end
