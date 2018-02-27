@@ -4,7 +4,7 @@
 
 The gem for interacting with the API on [Zencoder](http://zencoder.com).
 
-See [http://zencoder.com/docs/api](http://zencoder.com/docs/api) for more details on the API.
+See [https://support.brightcove.com/zencoder](https://support.brightcove.com/zencoder) for more details on the API.
 
 Tested on the following versions of Ruby:
 
