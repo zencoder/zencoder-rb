@@ -47,7 +47,7 @@ With the release of version two of the Zencoder API, there are some new methods 
 * Zencoder::Report.live(:from => "2011-01-01", :to => "2011-03-01")
 * Zencoder::Report.vod(:from => "2011-01-01", :to => "2011-03-01")
 
-These new methods will not work with older versions of the API. Please see the [Zencoder documentation](https://app.zencoder.com/docs) and our [blog post on the subject](http://blog.zencoder.com/2012/01/05/announcing-zencoder-api-v2/) for more information on APIv2.
+These new methods will not work with older versions of the API. Please see the [Zencoder documentation](https://support.brightcove.com/zencoder) for more information on APIv2.
 
 If you'd like to use the new version of the library but continue using APIv1 until you work through any integration troubles, you can do the following:
 
@@ -113,7 +113,7 @@ There's more you can do on jobs than anything else in the API. The following met
 
 ### create
 
-The hash you pass to the `create` method should be encodable to the [JSON you would pass to the Job creation API call on Zencoder](http://zencoder.com/docs/api/#encoding-job). We'll auto-populate your API key if you've set it already.
+The hash you pass to the `create` method should be encodable to the [JSON you would pass to the Job creation API call on Zencoder](https://docs.brightcove.com/zencoder-api/v2/doc/index.html#api-Jobs-Create_a_Job). We'll auto-populate your API key if you've set it already.
 
 ```ruby
 Zencoder::Job.create({:input => 's3://bucket/key.mp4'})
@@ -245,7 +245,7 @@ Zencoder::Notification.list(:api_key => 'abcd1234')
 
 ### create
 
-The hash you pass to the `create` method should be encodable to the [JSON you would pass to the Account creation API call on Zencoder](http://zencoder.com/docs/api/#accounts). No API key is required for this call, of course.
+The hash you pass to the `create` method should be encodable to the [JSON you would pass to the Account creation API call on Zencoder](https://docs.brightcove.com/zencoder-api/v2/doc/index.html#api-Accounts-Create_an_Account). No API key is required for this call, of course.
 
 ```ruby
 Zencoder::Account.create({:terms_of_service => 1,
