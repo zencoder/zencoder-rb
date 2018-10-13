@@ -5,6 +5,19 @@ require "spec_helper"
 if !defined?(Typhoeus)
   module ::Typhoeus
     module Request
+      extend self
+
+      def get(*)
+      end
+
+      def put(*)
+      end
+
+      def post(*)
+      end
+
+      def delete(*)
+      end
     end
   end
 end
