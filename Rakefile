@@ -1,11 +1,8 @@
 require 'rubygems'
-require 'rake'
-require 'rake/testtask'
 
-Rake::TestTask.new(:test) do |test|
-  test.libs << 'lib' << 'test'
-  test.pattern = 'test/**/*_test.rb'
-  test.verbose = true
+begin
+  require 'rspec/core/rake_task'
+  RSpec::Core::RakeTask.new(:spec)
+  task :default => :spec
+rescue LoadError
 end
-
-task :default => :test

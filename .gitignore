@@ -9,3 +9,5 @@ Gemfile.lock
 .zenflow-log
 .ruby-gemset
 .ruby-version
+/.byebug-history
+/.tool-versions
